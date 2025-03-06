@@ -16,7 +16,23 @@
     #modal { display: none; position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); align-items: center; justify-content: center; }
     #modal-content { background-color: #fff; padding: 20px; border-radius: 8px; text-align: center; max-width: 400px; }
     .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #333; color: white; padding: 10px 20px; border-radius: 5px; display: none; opacity: 0.9; z-index: 1000; }
-</style>
+#floating-loading {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 1000;
+}
+#floating-loading img {
+    width: 60px; /* Sesuaikan ukuran GIF */
+    height: 60px;
+}
+    </style>
 </head>
 <body>
 
@@ -48,8 +64,10 @@
     </div>
 
     <!-- JS -->
-    <p id="loading" class="loading">Sedang memuat... Mohon tunggu.</p>
-<div id="pesan"></div>
+<!-- Floating Loading -->
+<div id="floating-loading">
+    <img src="images/loading.gif" alt="Loading...">
+</div>
 <div id="toast" class="toast">🔄 Memeriksa status data...</div>
 
 <!-- Modal Pop-up -->
@@ -76,10 +94,7 @@ async function cariRapor() {
         return;
     }
     
-    loading.style.display = "block";
-    pesan.innerHTML = "";
-
-    console.log("📋 Memulai proses pencarian untuk NISN: " + nisn);
+    loadingScreen.style.display = "block"; // Tampilkan floating loading
     
     try {
         console.log("📡 Mengirim request ke Apps Script...");
@@ -97,7 +112,7 @@ async function cariRapor() {
             logContainer.innerHTML = "<h4>Log:</h4><pre>" + result.log.join("\n") + "</pre>";
         }
 
-        loading.style.display = "none";
+        loadingScreen.style.display = "none"; // Sembunyikan floating loading setelah selesai
         
         if (result.status === "success" && result.data && result.data.url) {
             pdfUrl = result.data.url;  // Simpan URL PDF
