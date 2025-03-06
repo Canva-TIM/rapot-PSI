@@ -34,6 +34,9 @@ async function cariRapor() {
         
         if (result.status === "success" && result.data && result.data.url) {
             pdfUrl = result.data.url;  // Simpan URL PDF
+            const namaSiswa = result.data.nama || "-"; // Ambil nama siswa, jika tidak ada pakai "-"
+            
+            document.getElementById("modal-title").innerText = `Rapor Ananda ${namaSiswa} Ditemukan!`;
             document.getElementById("modal").style.display = "flex";  // Tampilkan modal
         } else {
             showToast("❌ Rapor tidak di temukan atau NISN salah.");
