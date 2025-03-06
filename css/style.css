@@ -610,6 +610,6 @@ text-align: center;
 z-index: 1000;
 }
 #floating-loading img {
-width: 100px; /* Sesuaikan ukuran GIF */
-height: 100px;
+width: 150px; /* Sesuaikan ukuran GIF */
+height: 150px;
 }
