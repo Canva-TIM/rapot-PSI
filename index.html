@@ -29,8 +29,8 @@
     z-index: 1000;
 }
 #floating-loading img {
-    width: 60px; /* Sesuaikan ukuran GIF */
-    height: 60px;
+    width: 80px; /* Sesuaikan ukuran GIF */
+    height: 80px;
 }
     </style>
 </head>
@@ -69,6 +69,7 @@
     <img src="images/loading.gif" alt="Loading...">
 </div>
 <div id="toast" class="toast">🔄 Memeriksa status data...</div>
+<div id="pesan"></div>
 
 <!-- Modal Pop-up -->
 <div id="modal">
@@ -87,10 +88,10 @@ let pdfUrl = "";  // Variabel untuk menyimpan URL PDF
 async function cariRapor() {
     const nisn = document.getElementById("nisn").value.trim();
     const loadingScreen = document.getElementById("floating-loading");
-//    const pesan = document.getElementById("pesan");
+    const pesan = document.getElementById("pesan");
     
     if (!nisn) {
-        alert("Mohon masukkan NISN!");
+        pesan.innerText = "Mohon Masukkan NISN!";
         return;
     }
     
@@ -121,7 +122,7 @@ async function cariRapor() {
             pesan.innerText = "Rapor tidak ditemukan atau NISN salah!";
         }
     } catch (error) {
-        loading.style.display = "none";
+        loadingScreen.style.display = "none"; // Sembunyikan floating loading setelah selesai
         pesan.innerText = "Terjadi kesalahan. Coba lagi nanti.";
         console.error("❌ Terjadi error:", error);
     }
