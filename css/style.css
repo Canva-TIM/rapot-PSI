@@ -613,3 +613,7 @@ z-index: 1000;
 width: 150px; /* Sesuaikan ukuran GIF */
 height: 150px;
 }
+.logo {
+    width: 120px; /* Ubah ukuran sesuai kebutuhan */
+    margin-bottom: 15px;
+}
