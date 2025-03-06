@@ -4,59 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up Form by Colorlib</title>
+    <title>Rapor Online | SD PSI Fathir Alfath</title>
 
     <!-- Font Icon -->
     <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
 
     <!-- Main css -->
     <link rel="stylesheet" href="css/style.css">
+    <style>
+    .loading { display: none; }
+    #modal { display: none; position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); align-items: center; justify-content: center; }
+    #modal-content { background-color: #fff; padding: 20px; border-radius: 8px; text-align: center; max-width: 400px; }
+    .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #333; color: white; padding: 10px 20px; border-radius: 5px; display: none; opacity: 0.9; z-index: 1000; }
+</style>
 </head>
 <body>
 
     <div class="main">
 
-        <!-- Sign up form -->
-        <section class="signup">
-            <div class="container">
-                <div class="signup-content">
-                    <div class="signup-form">
-                        <h2 class="form-title">Sign up</h2>
-                        <form method="POST" class="register-form" id="register-form">
-                            <div class="form-group">
-                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="name" id="name" placeholder="Your Name"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" name="email" id="email" placeholder="Your Email"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="pass" id="pass" placeholder="Password"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
-                                <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
-                            </div>
-                            <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="signup-image">
-                        <figure><img src="images/signup-image.jpg" alt="sing up image"></figure>
-                        <a href="#" class="signup-image-link">I am already member</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sing in  Form -->
+       <!-- Sing in  Form -->
         <section class="sign-in">
             <div class="container">
                 <div class="signin-content">
@@ -66,33 +32,16 @@
                     </div>
 
                     <div class="signin-form">
-                        <h2 class="form-title">Sign up</h2>
-                        <form method="POST" class="register-form" id="login-form">
+                        <h2 class="form-title">Masukkan NISN untuk Melihat Rapor</h2>
+                        
                             <div class="form-group">
-                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="your_name" id="your_name" placeholder="Your Name"/>
+                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"> Masukkan NISN</i></label>
+                                <input type="text" id="nisn" placeholder="Masukkan NISN"/>
                             </div>
-                            <div class="form-group">
-                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="your_pass" id="your_pass" placeholder="Password"/>
+                             <div class="form-group form-button">
+                                <input onclick="cariRapor()" class="form-submit" value="Lihat Rapor"/>
                             </div>
-                            <div class="form-group">
-                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
-                            </div>
-                            <div class="form-group form-button">
-                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
-                            </div>
-                        </form>
-                        <div class="social-login">
-                            <span class="social-label">Or login with</span>
-                            <ul class="socials">
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
+                      </div>
                 </div>
             </div>
         </section>
@@ -100,7 +49,119 @@
     </div>
 
     <!-- JS -->
+    <p id="loading" class="loading">Sedang memuat... Mohon tunggu.</p>
+<div id="pesan"></div>
+<div id="toast" class="toast">🔄 Memeriksa status data...</div>
+
+<!-- Modal Pop-up -->
+<div id="modal">
+    <div id="modal-content">
+        <h3>URL Rapor Ditemukan!</h3>
+        <p>Silakan pilih tindakan:</p>
+        <button class="btn btn-primary" id="unduhBtn">Unduh</button>
+        <button class="btn btn-secondary" id="closeBtn">Close</button>
+    </div>
+</div>
+<script>
+// 🌐 Variabel Global untuk URL Apps Script
+const BASE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx0-6y10XBFhoqRQHAHktqSLO5gq-SKlLUyRGOQzb6eSwXElwBA3ecgiDZrHFZc4Pxo/exec";
+let pdfUrl = "";  // Variabel untuk menyimpan URL PDF
+
+async function cariRapor() {
+    const nisn = document.getElementById("nisn").value.trim();
+    const loading = document.getElementById("loading");
+    const pesan = document.getElementById("pesan");
+    
+    if (!nisn) {
+        alert("Mohon masukkan NISN!");
+        return;
+    }
+    
+    loading.style.display = "block";
+    pesan.innerHTML = "";
+
+    console.log("📋 Memulai proses pencarian untuk NISN: " + nisn);
+    
+    try {
+        console.log("📡 Mengirim request ke Apps Script...");
+        const response = await fetch(`${BASE_SCRIPT_URL}?nisn=${encodeURIComponent(nisn)}`);
+        const result = await response.json();  // Parsing JSON
+        
+        console.log("✅ Response diterima:", result);
+        
+        if (result.log) {
+            console.log("📝 Log dari Apps Script:");
+            result.log.forEach(log => console.log(log));
+        
+            // 🛠️ Tambahkan Log ke Halaman Web
+            const logContainer = document.getElementById("log");
+            logContainer.innerHTML = "<h4>Log:</h4><pre>" + result.log.join("\n") + "</pre>";
+        }
+
+        loading.style.display = "none";
+        
+        if (result.status === "success" && result.data && result.data.url) {
+            pdfUrl = result.data.url;  // Simpan URL PDF
+            document.getElementById("modal").style.display = "flex";  // Tampilkan modal
+        } else {
+            pesan.innerText = "Rapor tidak ditemukan atau NISN salah!";
+        }
+    } catch (error) {
+        loading.style.display = "none";
+        pesan.innerText = "Terjadi kesalahan. Coba lagi nanti.";
+        console.error("❌ Terjadi error:", error);
+    }
+}
+
+// Tombol "Unduh"
+document.getElementById("unduhBtn").onclick = () => {
+    document.getElementById("modal").style.display = "none";
+    window.open(pdfUrl, "_blank");  // Buka URL PDF di tab baru
+};
+
+// Tombol "Close"
+document.getElementById("closeBtn").onclick = () => {
+    document.getElementById("modal").style.display = "none";  // Tutup modal
+};
+
+// Tutup Modal jika klik di luar konten modal
+window.onclick = function(event) {
+    const modal = document.getElementById("modal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+};
+
+async function cekCache() {
+    try {
+        const response = await fetch(`${BASE_SCRIPT_URL}?checkCache=true`);
+        const result = await response.json();
+        
+        if (result.status === "ready") {
+            showToast("✅ Data siap! Silakan masukkan NISN.");
+        } else {
+            showToast("⚠️ Data sedang diperbarui, harap tunggu sebentar...");
+        }
+    } catch (error) {
+        showToast("❌ Gagal mengecek cache, coba lagi nanti.");
+        console.error("Error cek cache:", error);
+    }
+}
+
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.innerText = message;
+    toast.style.display = "block";
+    
+    setTimeout(() => {
+        toast.style.display = "none";
+    }, 5000);  // Sembunyikan setelah 5 detik
+}
+
+window.onload = cekCache;
+</script>
+
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="js/main.js"></script>
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</body>
 </html>
