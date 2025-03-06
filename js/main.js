@@ -1,50 +1,36 @@
 // 🌐 Variabel Global untuk URL Apps Script
-const BASE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwpkSFET8_1HH6V1OC3Qw_cUym0RfTl3hDAQrXAyALiWjw4UznEE2Vgo7JHfIEBV2k/exec";
+const BASE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz0Vw5kcP2qbwEc2Y6Jj-NoP-fuG0Yd8VkLGQTVnYyOj9Z0xv6RlTgSB33wLEG43Ng/exec";
 let pdfUrl = "";  // Variabel untuk menyimpan URL PDF
 
 async function cariRapor() {
-    const nisn = document.getElementById("nisn").value.trim();
+    const inputId = document.getElementById("nisn").value.trim();
     const loadingScreen = document.getElementById("floating-loading");
-//    const pesan = document.getElementById("pesan");
-    
-    if (!nisn) {
-        showToast("❌ NISN Tidak Boleh Kosong.");
+
+    if (!inputId) {
+        showToast("❌ NISN/NIS Tidak Boleh Kosong.");
         return;
     }
-    
-    loadingScreen.style.display = "block"; // Tampilkan floating loading
-    
-    try {
- //       console.log("📡 Mengirim request ke Apps Script...");
-        const response = await fetch(`${BASE_SCRIPT_URL}?nisn=${encodeURIComponent(nisn)}`);
-        const result = await response.json();  // Parsing JSON
-        
-   //     console.log("✅ Response diterima:", result);
-        
-//        if (result.log) {
-//            console.log("📝 Log dari Apps Script:");
-//            result.log.forEach(log => console.log(log));
-//        
-            // 🛠️ Tambahkan Log ke Halaman Web
-//            const logContainer = document.getElementById("log");
-//            logContainer.innerHTML = "<h4>Log:</h4><pre>" + result.log.join("\n") + "</pre>";
-//        }
 
-        loadingScreen.style.display = "none"; // Sembunyikan floating loading setelah selesai
-        
+    loadingScreen.style.display = "block";
+
+    try {
+        const response = await fetch(`${BASE_SCRIPT_URL}?nisn=${encodeURIComponent(inputId)}`);
+        const result = await response.json();
+
+        loadingScreen.style.display = "none";
+
         if (result.status === "success" && result.data && result.data.url) {
-            pdfUrl = result.data.url;  // Simpan URL PDF
-            const namaSiswa = result.data.nama || "-"; // Ambil nama siswa, jika tidak ada pakai "-"
-            
+            pdfUrl = result.data.url;
+            const namaSiswa = result.data.nama || "-";
+
             document.getElementById("modal-title").innerText = `Rapor Ananda ${namaSiswa} Ditemukan!`;
-            document.getElementById("modal").style.display = "flex";  // Tampilkan modal
+            document.getElementById("modal").style.display = "flex";
         } else {
-            showToast("❌ Rapor tidak di temukan atau NISN salah.");
+            showToast("❌ Rapor tidak ditemukan atau NISN/NIS salah.");
         }
     } catch (error) {
-        loadingScreen.style.display = "none"; // Sembunyikan floating loading setelah selesai
+        loadingScreen.style.display = "none";
         showToast("❌ Terjadi Kesalahan, coba lagi.");
-        console.error("❌ Terjadi error:", error);
     }
 }
 
