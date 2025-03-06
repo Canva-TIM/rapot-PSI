@@ -1,5 +1,5 @@
 // 🌐 Variabel Global untuk URL Apps Script
-const BASE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxNuV2WaPEsn3M0UzvQiLdX0kqLEKS1Jxg4_oSvMwjOeoS25UZWqUg0jms6Zp0viVfL/exec";
+const BASE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwpkSFET8_1HH6V1OC3Qw_cUym0RfTl3hDAQrXAyALiWjw4UznEE2Vgo7JHfIEBV2k/exec";
 let pdfUrl = "";  // Variabel untuk menyimpan URL PDF
 
 async function cariRapor() {
