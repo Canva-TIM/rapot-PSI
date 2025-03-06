@@ -15,20 +15,20 @@ async function cariRapor() {
     loadingScreen.style.display = "block"; // Tampilkan floating loading
     
     try {
-        console.log("📡 Mengirim request ke Apps Script...");
+ //       console.log("📡 Mengirim request ke Apps Script...");
         const response = await fetch(`${BASE_SCRIPT_URL}?nisn=${encodeURIComponent(nisn)}`);
         const result = await response.json();  // Parsing JSON
         
-        console.log("✅ Response diterima:", result);
+   //     console.log("✅ Response diterima:", result);
         
-        if (result.log) {
-            console.log("📝 Log dari Apps Script:");
-            result.log.forEach(log => console.log(log));
-        
+//        if (result.log) {
+//            console.log("📝 Log dari Apps Script:");
+//            result.log.forEach(log => console.log(log));
+//        
             // 🛠️ Tambahkan Log ke Halaman Web
-            const logContainer = document.getElementById("log");
-            logContainer.innerHTML = "<h4>Log:</h4><pre>" + result.log.join("\n") + "</pre>";
-        }
+//            const logContainer = document.getElementById("log");
+//            logContainer.innerHTML = "<h4>Log:</h4><pre>" + result.log.join("\n") + "</pre>";
+//        }
 
         loadingScreen.style.display = "none"; // Sembunyikan floating loading setelah selesai
         
