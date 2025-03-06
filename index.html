@@ -13,9 +13,8 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
+    <div id="toast" class="toast"></div>
     <div class="main">
-
        <!-- Sing in  Form -->
         <section class="sign-in">
             <div class="container">
@@ -23,7 +22,6 @@
                     <div class="signin-image">
                         <figure><img src="images/signup-image.jpg" alt="Rapor Online"></figure>
                     </div>
-
                     <div class="signin-form">
                         <h2 class="form-title">Masukkan NISN untuk Melihat Rapor</h2>
                         
@@ -38,16 +36,12 @@
                 </div>
             </div>
         </section>
-
     </div>
 
-    <!-- JS -->
 <!-- Floating Loading -->
 <div id="floating-loading">
     <img src="images/loading.gif" alt="Loading...">
 </div>
-<div id="toast" class="toast">🔄 Memeriksa status data...</div>
-<!--<div id="pesan"></div> -->
 
 <!-- Modal Pop-up -->
 <div id="modal">
@@ -58,6 +52,7 @@
         <button class="btn btn-secondary" id="closeBtn">Close</button>
     </div>
 </div>
+
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="js/main.js"></script>
 </body>
