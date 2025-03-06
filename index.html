@@ -91,7 +91,7 @@ async function cariRapor() {
     const pesan = document.getElementById("pesan");
     
     if (!nisn) {
-        pesan.innerText = "Mohon Masukkan NISN!";
+        showToast("❌ Masukkan NISN.");
         return;
     }
     
@@ -119,7 +119,7 @@ async function cariRapor() {
             pdfUrl = result.data.url;  // Simpan URL PDF
             document.getElementById("modal").style.display = "flex";  // Tampilkan modal
         } else {
-            pesan.innerText = "Rapor tidak ditemukan atau NISN salah!";
+            showToast("❌ Rapor tidak di temukan atau NISN salah.");
         }
     } catch (error) {
         loadingScreen.style.display = "none"; // Sembunyikan floating loading setelah selesai
