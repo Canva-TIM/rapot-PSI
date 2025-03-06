@@ -86,8 +86,8 @@ let pdfUrl = "";  // Variabel untuk menyimpan URL PDF
 
 async function cariRapor() {
     const nisn = document.getElementById("nisn").value.trim();
-    const loading = document.getElementById("loading");
-    const pesan = document.getElementById("pesan");
+    const loadingScreen = document.getElementById("floating-loading");
+//    const pesan = document.getElementById("pesan");
     
     if (!nisn) {
         alert("Mohon masukkan NISN!");
