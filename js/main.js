@@ -42,11 +42,18 @@ document.getElementById("unduhBtn").onclick = () => {
 };
 
 // Tombol "UNDUH"
-document.getElementById("lihatBtn").onclick = () => {
+document.getElementById("unduhBtn").onclick = () => {
     document.getElementById("modal").style.display = "none";
-    const viewerUrl = `https://docs.google.com/viewerng/viewer?url=${encodeURIComponent(pdfUrl)}`;
-    window.open(viewerUrl, "_blank");
+
+    // Pastikan pdfUrl sudah mengarah ke file PDF yang benar
+    const a = document.createElement('a');
+    a.href = pdfUrl;
+    a.download = `Rapor-${namaSiswa.replace(/\s+/g, "_")}.pdf`; // Nama file dinamis
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 };
+
 
 // Tombol "Close"
 document.getElementById("closeBtn").onclick = () => {
