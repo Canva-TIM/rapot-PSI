@@ -37,7 +37,8 @@ async function cariRapor() {
 // Tombol "Unduh"
 document.getElementById("unduhBtn").onclick = () => {
     document.getElementById("modal").style.display = "none";
-    window.open(pdfUrl, "_blank");
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`;
+    window.open(viewerUrl, "_blank");
 };
 
 
