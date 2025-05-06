@@ -36,29 +36,17 @@ async function cariRapor() {
     }
 }
 
-
 document.getElementById("unduhBtn").onclick = () => {
-    try {
-        document.getElementById("modal").style.display = "none";
+    document.getElementById("modal").style.display = "none";
 
-        if (!pdfUrl) {
-            showToast("❌ URL PDF tidak tersedia.");
-            return;
-        }
-
-        // Pastikan pdfUrl sudah mengarah ke file PDF yang benar
-        const a = document.createElement('a');
-        a.href = pdfUrl;
-        a.download = `Rapor-${namaSiswa.replace(/\s+/g, "_")}.pdf`; // Nama file dinamis
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    } catch (error) {
-        showToast("❌ Terjadi Kesalahan saat mengunduh.");
-        console.error("Error saat klik Unduh:", error);
-    }
+    // Pastikan pdfUrl sudah mengarah ke file PDF yang benar
+    const a = document.createElement('a');
+    a.href = pdfUrl;
+    a.download = `Rapor-${namaSiswa.replace(/\s+/g, "_")}.pdf`;  // Nama file dinamis
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 };
-
 
 // Tombol "unduh"
 //document.getElementById("unduhBtn").onclick = () => {
