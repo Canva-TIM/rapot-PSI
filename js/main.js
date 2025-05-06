@@ -2,6 +2,8 @@
 const BASE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyS3MYLwHGr1ivzFv5-20Jl3CfOJ9wxXleMrjNKpq3wXTHdOtrHhWTJvKOiJa36uvH2/exec";
 let pdfUrl = "";  // Variabel untuk menyimpan URL PDF
 
+let namaSiswa = "";  // Deklarasikan di sini agar bisa diakses di seluruh script
+
 async function cariRapor() {
     const inputId = document.getElementById("nisn").value.trim();
     const loadingScreen = document.getElementById("floating-loading");
@@ -21,7 +23,7 @@ async function cariRapor() {
 
         if (result.status === "success" && result.data && result.data.url) {
             pdfUrl = result.data.url;
-            const namaSiswa = result.data.nama || "-";
+            namaSiswa = result.data.nama || "-";  // Simpan nama siswa
 
             document.getElementById("modal-title").innerText = `Rapor Ananda ${namaSiswa} Ditemukan!`;
             document.getElementById("modal").style.display = "flex";
@@ -34,18 +36,29 @@ async function cariRapor() {
     }
 }
 
-// Tombol "UNDUH"
-document.getElementById("unduhBtn").onclick = () => {
-    document.getElementById("modal").style.display = "none";
 
-    // Pastikan pdfUrl sudah mengarah ke file PDF yang benar
-    const a = document.createElement('a');
-    a.href = pdfUrl;
-    a.download = `Rapor-${namaSiswa.replace(/\s+/g, "_")}.pdf`; // Nama file dinamis
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+document.getElementById("unduhBtn").onclick = () => {
+    try {
+        document.getElementById("modal").style.display = "none";
+
+        if (!pdfUrl) {
+            showToast("❌ URL PDF tidak tersedia.");
+            return;
+        }
+
+        // Pastikan pdfUrl sudah mengarah ke file PDF yang benar
+        const a = document.createElement('a');
+        a.href = pdfUrl;
+        a.download = `Rapor-${namaSiswa.replace(/\s+/g, "_")}.pdf`; // Nama file dinamis
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    } catch (error) {
+        showToast("❌ Terjadi Kesalahan saat mengunduh.");
+        console.error("Error saat klik Unduh:", error);
+    }
 };
+
 
 // Tombol "unduh"
 //document.getElementById("unduhBtn").onclick = () => {
