@@ -34,11 +34,21 @@ async function cariRapor() {
     }
 }
 
-// Tombol "Unduh"
-document.getElementById("unduhBtn").onclick = () => {
+// Tombol "Lihat Rapor"
+document.getElementById("viewBtn").onclick = () => {
     document.getElementById("modal").style.display = "none";
     const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`;
     window.open(viewerUrl, "_blank");  // Buka PDF via Google Docs Viewer
+};
+
+// Tombol "Unduh Rapor"
+document.getElementById("unduhBtn").onclick = () => {
+    document.getElementById("modal").style.display = "none";
+    const downloadUrl = `${pdfUrl.replace("/edit", "/export?format=pdf")}`;
+    const a = document.createElement("a");
+    a.href = downloadUrl;
+    a.download = `rapor_${inputId}.pdf`;  // Nama file yang diunduh
+    a.click();  // Klik link untuk memulai unduhan otomatis
 };
 
 
