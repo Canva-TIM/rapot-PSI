@@ -34,13 +34,19 @@ async function cariRapor() {
     }
 }
 
-// Tombol "Unduh"
+// Tombol "LIHAT"
+document.getElementById("lihatBtn").onclick = () => {
+    document.getElementById("modal").style.display = "none";
+    // const viewerUrl = `https://docs.google.com/viewerng/viewer?url=${encodeURIComponent(pdfUrl)}`;
+    window.open(pdfUrl, "_blank");
+};
+
+// Tombol "UNDUH"
 document.getElementById("unduhBtn").onclick = () => {
     document.getElementById("modal").style.display = "none";
     const viewerUrl = `https://docs.google.com/viewerng/viewer?url=${encodeURIComponent(pdfUrl)}`;
     window.open(viewerUrl, "_blank");
 };
-
 
 // Tombol "Close"
 document.getElementById("closeBtn").onclick = () => {
