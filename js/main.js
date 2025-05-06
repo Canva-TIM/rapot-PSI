@@ -34,14 +34,27 @@ async function cariRapor() {
     }
 }
 
-// Tombol "LIHAT"
+// Tombol "UNDUH"
 document.getElementById("unduhBtn").onclick = () => {
     document.getElementById("modal").style.display = "none";
-    // const viewerUrl = `https://docs.google.com/viewerng/viewer?url=${encodeURIComponent(pdfUrl)}`;
-    window.open(pdfUrl, "_blank");
+
+    // Pastikan pdfUrl sudah mengarah ke file PDF yang benar
+    const a = document.createElement('a');
+    a.href = pdfUrl;
+    a.download = `Rapor-${namaSiswa.replace(/\s+/g, "_")}.pdf`; // Nama file dinamis
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 };
 
-// Tombol "UNDUH"
+// Tombol "unduh"
+//document.getElementById("unduhBtn").onclick = () => {
+//    document.getElementById("modal").style.display = "none";
+    // const viewerUrl = `https://docs.google.com/viewerng/viewer?url=${encodeURIComponent(pdfUrl)}`;
+//    window.open(pdfUrl, "_blank");
+//};
+
+// Tombol "lihat"
 document.getElementById("lihatBtn").onclick = () => {
     document.getElementById("modal").style.display = "none";
     const viewerUrl = `https://docs.google.com/viewerng/viewer?url=${encodeURIComponent(pdfUrl)}`;
