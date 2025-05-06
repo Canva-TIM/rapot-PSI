@@ -51,7 +51,6 @@ document.getElementById("unduhBtn").onclick = () => {
     a.click();  // Klik link untuk memulai unduhan otomatis
 };
 
-
 // Tombol "Close"
 document.getElementById("closeBtn").onclick = () => {
     document.getElementById("modal").style.display = "none";  // Tutup modal
