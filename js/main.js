@@ -37,7 +37,7 @@ async function cariRapor() {
 // Tombol "Unduh"
 document.getElementById("unduhBtn").onclick = () => {
     document.getElementById("modal").style.display = "none";
-    const viewerUrl = https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true;
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`;
     window.open(viewerUrl, "_blank");  // Buka PDF via Google Docs Viewer
 };
 
