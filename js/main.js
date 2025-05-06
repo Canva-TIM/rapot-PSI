@@ -14,7 +14,7 @@ async function cariRapor() {
     loadingScreen.style.display = "block";
 
     try {
-        const response = await fetch(${BASE_SCRIPT_URL}?nisn=${encodeURIComponent(inputId)});
+        const response = await fetch(`${BASE_SCRIPT_URL}?nisn=${encodeURIComponent(inputId)}`);
         const result = await response.json();
 
         loadingScreen.style.display = "none";
@@ -23,7 +23,7 @@ async function cariRapor() {
             pdfUrl = result.data.url;
             const namaSiswa = result.data.nama || "-";
 
-            document.getElementById("modal-title").innerText = Rapor Ananda ${namaSiswa} Ditemukan!;
+            document.getElementById("modal-title").innerText = `Rapor Ananda ${namaSiswa} Ditemukan!`;
             document.getElementById("modal").style.display = "flex";
         } else {
             showToast("❌ Rapor tidak ditemukan atau NISN/NIS salah.");
@@ -57,7 +57,7 @@ window.onclick = function(event) {
 
 async function cekCache() {
     try {
-        const response = await fetch(${BASE_SCRIPT_URL}?checkCache=true);
+        const response = await fetch(`${BASE_SCRIPT_URL}?checkCache=true`);
         const result = await response.json();
         
         if (result.status === "ready") {
