@@ -14,7 +14,7 @@ async function cariRapor() {
     loadingScreen.style.display = "block";
 
     try {
-        const response = await fetch(`${BASE_SCRIPT_URL}?nisn=${encodeURIComponent(inputId)}`);
+        const response = await fetch(${BASE_SCRIPT_URL}?nisn=${encodeURIComponent(inputId)});
         const result = await response.json();
 
         loadingScreen.style.display = "none";
@@ -23,7 +23,7 @@ async function cariRapor() {
             pdfUrl = result.data.url;
             const namaSiswa = result.data.nama || "-";
 
-            document.getElementById("modal-title").innerText = `Rapor Ananda ${namaSiswa} Ditemukan!`;
+            document.getElementById("modal-title").innerText = Rapor Ananda ${namaSiswa} Ditemukan!;
             document.getElementById("modal").style.display = "flex";
         } else {
             showToast("❌ Rapor tidak ditemukan atau NISN/NIS salah.");
@@ -34,22 +34,13 @@ async function cariRapor() {
     }
 }
 
-// Tombol "Lihat Rapor"
-document.getElementById("viewBtn").onclick = () => {
+// Tombol "Unduh"
+document.getElementById("unduhBtn").onclick = () => {
     document.getElementById("modal").style.display = "none";
-    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`;
+    const viewerUrl = https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true;
     window.open(viewerUrl, "_blank");  // Buka PDF via Google Docs Viewer
 };
 
-// Tombol "Unduh Rapor"
-document.getElementById("unduhBtn").onclick = () => {
-    document.getElementById("modal").style.display = "none";
-    const downloadUrl = `${pdfUrl.replace("/edit", "/export?format=pdf")}`;
-    const a = document.createElement("a");
-    a.href = downloadUrl;
-    a.download = `rapor_${inputId}.pdf`;  // Nama file yang diunduh
-    a.click();  // Klik link untuk memulai unduhan otomatis
-};
 
 // Tombol "Close"
 document.getElementById("closeBtn").onclick = () => {
@@ -66,7 +57,7 @@ window.onclick = function(event) {
 
 async function cekCache() {
     try {
-        const response = await fetch(`${BASE_SCRIPT_URL}?checkCache=true`);
+        const response = await fetch(${BASE_SCRIPT_URL}?checkCache=true);
         const result = await response.json();
         
         if (result.status === "ready") {
