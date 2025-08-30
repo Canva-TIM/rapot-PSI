@@ -17,19 +17,16 @@ async function cariRapor() {
       localStorage.setItem("raporData", JSON.stringify(data));
 
       // tampilkan modal
-      document.getElementById("modal").style.display = "block";
+      document.getElementById("modal").style.display = "flex";
+      document.getElementById("modal-info").innerText =
+        "Rapor atas nama " + (data["Nama Peserta Didik"] || "") + " ditemukan!";
 
-      // set nama siswa di modal
-    document.getElementById("modal-info").innerText =
-      "Rapor atas nama " + (data["Nama Peserta Didik"] || "") + " ditemukan!";
-
-      
       // tombol lihat
       document.getElementById("lihatBtn").onclick = () => {
         window.location.href = "rapor.html";
       };
 
-      // tombol unduh
+      // tombol unduh (langsung buka rapor dengan print)
       document.getElementById("unduhBtn").onclick = () => {
         window.open("rapor.html?print=1", "_blank");
       };
@@ -47,4 +44,3 @@ async function cariRapor() {
     alert("Gagal mengambil data: " + err);
   }
 }
-
