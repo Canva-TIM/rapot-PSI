@@ -13,30 +13,32 @@ async function cariRapor() {
     let data = await res.json();
     document.getElementById("floating-loading").style.display = "none";
 
-    if (data && data["NISN"]) {
-      localStorage.setItem("raporData", JSON.stringify(data));
+    if (data && data["NISN"]) {if (data && data["NISN"]) {
+  localStorage.setItem("raporData", JSON.stringify(data));
 
-      // tampilkan modal
-      document.getElementById("modal").style.display = "flex";
-      document.getElementById("modal-info").innerText =
-        "Rapor atas nama " + (data["Nama Peserta Didik"] || "") + " ditemukan!";
+  // tampilkan modal
+  document.getElementById("modal").style.display = "block";
 
-      // tombol lihat
-      document.getElementById("lihatBtn").onclick = () => {
-        window.location.href = "rapor.html";
-      };
+  // isi nama siswa di modal
+  document.getElementById("modal-info").innerText = 
+    "Rapor atas nama " + data["Nama Peserta Didik"] + " ditemukan!";
 
-      // tombol unduh (langsung buka rapor dengan print)
-      document.getElementById("unduhBtn").onclick = () => {
-        window.open("rapor.html?print=1", "_blank");
-      };
+  // tombol lihat
+  document.getElementById("lihatBtn").onclick = () => {
+    window.location.href = "rapor.html";
+  };
 
-      // tombol close
-      document.getElementById("closeBtn").onclick = () => {
-        document.getElementById("modal").style.display = "none";
-      };
+  // tombol unduh
+  document.getElementById("unduhBtn").onclick = () => {
+    window.location.href = "rapor.html?print=1";
+  };
 
-    } else {
+  // tombol close
+  document.getElementById("closeBtn").onclick = () => {
+    document.getElementById("modal").style.display = "none";
+  };
+}
+ else {
       alert("Data tidak ditemukan. Periksa kembali NISN/NIS.");
     }
   } catch (err) {
