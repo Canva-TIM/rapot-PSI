@@ -122,12 +122,20 @@
       </div>
     </div>
 
-    <div class="ttd-bottom">
-      <p>Kepala Sekolah,</p><br><br>
-      <img id="ttd_kepala" src="images/ttd_kepala.png" style="width:180px; display:block; margin:0 auto;">
-      <p>Elda Fuspita Sari, S.Pd</p>
-      <img id="cap_sekolah" src="images/cap_sekolah.png" style="width:100px; display:block; margin:5px auto 0 auto;">
-    </div>
+<div class="ttd-bottom" style="position: relative; height: 200px;">
+  <p>Kepala Sekolah,</p><br><br>
+  
+  <!-- Container supaya cap menimpa ttd -->
+  <div style="position: relative; width: 180px; margin: 0 auto;">
+    <!-- Cap di atas TTD -->
+    <img id="cap_sekolah" src="images/cap_sekolah.png" 
+         style="position: absolute; top: -20px; left: 0; width: 100%; z-index: 2;">
+    <!-- TTD kepala -->
+    <img id="ttd_kepala" src="images/ttd_kepala.png" 
+         style="position: relative; width: 100%; z-index: 1;">
+  </div>
+  <p>Elda Fuspita Sari, S.Pd</p>
+</div>
   </div>
 </div>
 
