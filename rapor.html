@@ -44,7 +44,7 @@
     */
     @page {
       size: legal portrait;
-      margin: 0.566cm 1.5cm 0.212cm 1.5cm; /* top right bottom left */
+      margin: 0.566cm 0.566cm 0.212cm 0.566cm; /* top right bottom left */
     }
 
     @media print {
@@ -52,8 +52,8 @@
         /* make sure the printed page respects top/bottom margins above */
         margin-top: 0.566cm;
         margin-bottom: 0.212cm;
-        margin-left: 1.5cm;
-        margin-right: 1.5cm;
+        margin-left: 0.566cm;
+        margin-right: 0.566cm;
       }
       body { font-size: 12pt; }
       .no-print { display: none !important; }
