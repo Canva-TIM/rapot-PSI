@@ -1,104 +1,27 @@
-// 🌐 Variabel Global untuk URL Apps Script
-const BASE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyS3MYLwHGr1ivzFv5-20Jl3CfOJ9wxXleMrjNKpq3wXTHdOtrHhWTJvKOiJa36uvH2/exec";
-let pdfUrl = "";  // Variabel untuk menyimpan URL PDF
-
-let namaSiswa = "";  // Deklarasikan di sini agar bisa diakses di seluruh script
-
 async function cariRapor() {
-    const inputId = document.getElementById("nisn").value.trim();
-    const loadingScreen = document.getElementById("floating-loading");
+  let nisn = document.getElementById("nisn").value.trim();
+  if (!nisn) {
+    alert("Masukkan NISN atau NIS");
+    return;
+  }
 
-    if (!inputId) {
-        showToast("❌ NISN/NIS Tidak Boleh Kosong.");
-        return;
+  // Ganti URL ini dengan URL Web App Google Apps Script kamu
+  let apiURL = "https://script.google.com/macros/s/AKfycbzh-MV7VnhDHJh6dqp9utKw-cLy0BXLZhS-XHTpbMHWPdK623MpNGxfN3LWu_rdlVY6/exec?nisn=" + nisn;
+
+  try {
+    document.getElementById("floating-loading").style.display = "block";
+    let res = await fetch(apiURL);
+    let data = await res.json();
+    document.getElementById("floating-loading").style.display = "none";
+
+    if (data && data["NISN"]) {
+      localStorage.setItem("raporData", JSON.stringify(data));
+      window.location.href = "rapor.html";
+    } else {
+      alert("Data tidak ditemukan. Periksa kembali NISN/NIS.");
     }
-
-    loadingScreen.style.display = "block";
-
-    try {
-        const response = await fetch(`${BASE_SCRIPT_URL}?nisn=${encodeURIComponent(inputId)}`);
-        const result = await response.json();
-
-        loadingScreen.style.display = "none";
-
-        if (result.status === "success" && result.data && result.data.url) {
-            pdfUrl = result.data.url;
-            namaSiswa = result.data.nama || "-";  // Simpan nama siswa
-
-            document.getElementById("modal-title").innerText = `Rapor Ananda ${namaSiswa} Ditemukan!`;
-            document.getElementById("modal").style.display = "flex";
-        } else {
-            showToast("❌ Rapor tidak ditemukan atau NISN/NIS salah.");
-        }
-    } catch (error) {
-        loadingScreen.style.display = "none";
-        showToast("❌ Terjadi Kesalahan, coba lagi.");
-    }
+  } catch (err) {
+    document.getElementById("floating-loading").style.display = "none";
+    alert("Gagal mengambil data: " + err);
+  }
 }
-
-document.getElementById("unduhBtn").onclick = () => {
-    document.getElementById("modal").style.display = "none";
-
-    // Pastikan pdfUrl sudah mengarah ke file PDF yang benar
-    const a = document.createElement('a');
-    a.href = pdfUrl;
-    a.download = `Rapor-${namaSiswa.replace(/\s+/g, "_")}.pdf`;  // Nama file dinamis
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-};
-
-// Tombol "unduh"
-//document.getElementById("unduhBtn").onclick = () => {
-//    document.getElementById("modal").style.display = "none";
-    // const viewerUrl = `https://docs.google.com/viewerng/viewer?url=${encodeURIComponent(pdfUrl)}`;
-//    window.open(pdfUrl, "_blank");
-//};
-
-// Tombol "lihat"
-document.getElementById("lihatBtn").onclick = () => {
-    document.getElementById("modal").style.display = "none";
-    const viewerUrl = `https://docs.google.com/viewerng/viewer?url=${encodeURIComponent(pdfUrl)}`;
-    window.open(viewerUrl, "_blank");
-};
-
-// Tombol "Close"
-document.getElementById("closeBtn").onclick = () => {
-    document.getElementById("modal").style.display = "none";  // Tutup modal
-};
-
-// Tutup Modal jika klik di luar konten modal
-window.onclick = function(event) {
-    const modal = document.getElementById("modal");
-    if (event.target === modal) {
-        modal.style.display = "none";
-    }
-};
-
-async function cekCache() {
-    try {
-        const response = await fetch(`${BASE_SCRIPT_URL}?checkCache=true`);
-        const result = await response.json();
-        
-        if (result.status === "ready") {
-            showToast("✅ Data siap! Silakan masukkan NISN.");
-        } else {
-            showToast("⚠️ Data sedang diperbarui, harap tunggu sebentar...");
-        }
-    } catch (error) {
-        showToast("❌ Gagal mengecek cache, coba lagi nanti.");
-        console.error("Error cek cache:", error);
-    }
-}
-
-function showToast(message) {
-    const toast = document.getElementById("toast");
-    toast.innerText = message;
-    toast.style.display = "block";
-    
-    setTimeout(() => {
-        toast.style.display = "none";
-    }, 5000);  // Sembunyikan setelah 5 detik
-}
-
-window.onload = cekCache;
