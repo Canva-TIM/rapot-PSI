@@ -20,8 +20,9 @@ async function cariRapor() {
       document.getElementById("modal").style.display = "block";
 
       // set nama siswa di modal
-      document.getElementById("modal-title").innerText = 
-        "Rapor atas nama " + (data["Nama Peserta Didik"] || "") + " ditemukan!";
+    document.getElementById("modal-info").innerText =
+      "Rapor atas nama " + (data["Nama Peserta Didik"] || "") + " ditemukan!";
+
       
       // tombol lihat
       document.getElementById("lihatBtn").onclick = () => {
@@ -46,3 +47,4 @@ async function cariRapor() {
     alert("Gagal mengambil data: " + err);
   }
 }
+
