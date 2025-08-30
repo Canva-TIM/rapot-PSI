@@ -147,7 +147,7 @@
       <p>Kepala Sekolah,</p><br><br><br>
       <p><b id="kepala_sekolah"></b></p>
     </div>
-  </div>>
+  </div>
 </div>
 
 <button class="print-btn no-print" onclick="window.print()">Cetak</button>
@@ -217,7 +217,7 @@
       margin: [0.566, 1, 0.212, 1], // cm
       filename: (document.getElementById('nama_siswa')?.innerText || 'rapor')+'.pdf',
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 3, useCORS: true },
+      html2canvas: { scale: 4, useCORS: true },
       jsPDF: { unit: 'cm', format: [21.59, 33.02], orientation: 'portrait' }
     };
     await html2pdf().set(opt).from(el).save();
