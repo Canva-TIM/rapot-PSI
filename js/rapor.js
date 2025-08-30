@@ -69,7 +69,7 @@ function isiRapor(data) {
   const waliKelas = data["Wali Kelas"] || "";
   safeSet("wali_kelas", waliKelas);
   const fileName = waliKelas.replace(/\s+/g,"_") + ".png";
-  document.getElementById("ttd_wali_kelas").src = "images/ttd_wali_kelas/" + fileName;
+  document.getElementById("ttd_wali_kelas").src = "images/" + fileName;
 
   // Kepala sekolah & cap
   document.getElementById("ttd_kepala").src = "images/ttd_kepala.png";
