@@ -65,11 +65,13 @@ function isiRapor(data) {
   document.getElementById("ttd_wali").style.display = "none";
   safeSet("nama_wali","................................");
 
-  // Wali kelas → TTD otomatis
-  const waliKelas = data["Wali Kelas"] || "";
-  safeSet("wali_kelas", waliKelas);
-  const fileName = waliKelas.replace(/\s+/g,"_") + ".png";
-  document.getElementById("ttd_wali_kelas").src = "images/" + fileName;
+// Wali kelas → otomatis dari nama di database
+const waliKelas = data["Wali Kelas"] || "";
+document.getElementById("wali_kelas").innerText = waliKelas;
+
+// Ambil ttd wali kelas dari folder "images/"
+const fileName = waliKelas.replace(/\s+/g, "_") + ".png";
+document.getElementById("ttd_wali_kelas").src = "images/" + fileName;
 
   // Kepala sekolah & cap
   document.getElementById("ttd_kepala").src = "images/ttd_kepala.png";
