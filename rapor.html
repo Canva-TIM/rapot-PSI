@@ -3,11 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <title>Rapor SD PSI</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-    body { font-family: 'Times New Roman', serif; margin: 40px; font-size: 14px; }
+    /* -------- Page & tables -------- */
+    body { font-family: 'Times New Roman', serif; margin: 40px; font-size: 14px; color: #000; }
     table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
-    th, td { border: 1px solid #000; padding: 6px; vertical-align: top; }
+    /* default spacing (a bit roomy) */
+    th, td { border: 1px solid #000; padding: 8px 6px; vertical-align: top; line-height: 1.18; }
     .no-border td, .no-border th { border: none; padding: 4px; }
+
+    /* ===== Compact mode: teks lebih dekat ke border ===== */
+    table.compact th,
+    table.compact td {
+      padding: 4px 6px;      /* <--- lebih rapat */
+      line-height: 1.12;
+    }
+    /* ekstra rapat jika ingin (tambahkan kelas extra) */
+    table.compact.extra th,
+    table.compact.extra td {
+      padding: 2px 4px;
+      line-height: 1.05;
+    }
+
     .center { text-align: center; }
     .section-title { font-weight: bold; margin-top: 8px; margin-bottom: 4px; text-align: left; }
     .section-title-center { font-weight: bold; margin-top: 8px; margin-bottom: 4px; text-align: center; }
@@ -16,17 +33,46 @@
     .ttd { width: 45%; text-align: center; }
     .ttd-bottom { text-align: center; margin-top: 40px; }
     .col-no { width: 5%; text-align: center; }
-    .col-mapel { width:25%;  text-align: justify;}
+    .col-mapel { width:25%; text-align: justify; }
     .col-nilai { width: 8%; text-align: center; }
-    .col-capai { width: 70%;  text-align: justify;}
+    .col-capai { width: 70%; text-align: justify; text-justify: inter-word; }
     .half-table { width: 50%; }
     .text-center { text-align: center; }
+
+    /* small visual tweaks for print preview */
+    h3.center { margin: 6px 0 12px 0; }
+
+    /* Print settings: Legal portrait by default */
+    @media print {
+      @page { size: legal portrait; margin: 15mm; }
+      body { margin: 0; font-size: 12pt; }
+      .no-print { display: none !important; }
+      /* optionally tighten tables for print */
+      table.compact th, table.compact td { padding: 3px 6px; line-height: 1.05; }
+    }
+
+    /* small "Cetak" button (screen-only) */
+    .print-btn {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 1200;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .print-btn:hover { opacity: 0.9; }
+
   </style>
 </head>
 <body>
 
-  <!-- Identitas Siswa -->
-  <table class="no-border">
+  <!-- Identitas Siswa (compact, no-border for layout) -->
+  <table class="no-border compact">
     <tr>
       <td>Nama Peserta Didik</td><td>: <span id="nama_siswa"></span></td>
       <td>Kelas</td><td>: <span id="kelas"></span></td>
@@ -49,36 +95,36 @@
 
   <!-- Kelompok A -->
   <div class="section-title">Kelompok A</div>
-  <table>
+  <table class="compact">
     <tr>
       <th class="col-no">No.</th><th class="col-mapel">Mata Pelajaran</th>
       <th class="col-nilai">Nilai Akhir</th><th class="col-capai">Capaian Kompetensi</th>
     </tr>
-    <tr><td>1</td><td>Pendidikan Agama Islam dan Budi Pekerti</td><td id="nilai_pai" class="text-center"></td><td id="deskripsi_pai"></td></tr>
-    <tr><td>2</td><td>Pancasila</td><td id="nilai_pkn" class="text-center"></td><td id="deskripsi_pkn"></td></tr>
-    <tr><td>3</td><td>Bahasa Inggris</td><td id="nilai_bing" class="text-center"></td><td id="deskripsi_bing"></td></tr>
-    <tr><td>4</td><td>Ilmu Pengetahuan Alam dan Sosial</td><td id="nilai_ipas" class="text-center"></td><td id="deskripsi_ipas"></td></tr>
-    <tr><td>5</td><td>Matematika</td><td id="nilai_mtk" class="text-center"></td><td id="deskripsi_mtk"></td></tr>
-    <tr><td>6</td><td>Bahasa Arab</td><td id="nilai_barab" class="text-center"></td><td id="deskripsi_barab"></td></tr>
-    <tr><td>7</td><td>Pendidikan Jasmani, Olahraga, dan Kesehatan</td><td id="nilai_pjok" class="text-center"></td><td id="deskripsi_pjok"></td></tr>
-    <tr><td>8</td><td>Bahasa Indonesia</td><td id="nilai_bindo" class="text-center"></td><td id="deskripsi_bindo"></td></tr>
-    <tr><td>9</td><td>TIK/Informatika</td><td id="nilai_tik" class="text-center"></td><td id="deskripsi_tik"></td></tr>
+    <tr><td>1</td><td>Pendidikan Agama Islam dan Budi Pekerti</td><td id="nilai_pai" class="text-center col-nilai"></td><td id="deskripsi_pai" class="col-capai"></td></tr>
+    <tr><td>2</td><td>Pancasila</td><td id="nilai_pkn" class="text-center col-nilai"></td><td id="deskripsi_pkn" class="col-capai"></td></tr>
+    <tr><td>3</td><td>Bahasa Inggris</td><td id="nilai_bing" class="text-center col-nilai"></td><td id="deskripsi_bing" class="col-capai"></td></tr>
+    <tr><td>4</td><td>Ilmu Pengetahuan Alam dan Sosial</td><td id="nilai_ipas" class="text-center col-nilai"></td><td id="deskripsi_ipas" class="col-capai"></td></tr>
+    <tr><td>5</td><td>Matematika</td><td id="nilai_mtk" class="text-center col-nilai"></td><td id="deskripsi_mtk" class="col-capai"></td></tr>
+    <tr><td>6</td><td>Bahasa Arab</td><td id="nilai_barab" class="text-center col-nilai"></td><td id="deskripsi_barab" class="col-capai"></td></tr>
+    <tr><td>7</td><td>Pendidikan Jasmani, Olahraga, dan Kesehatan</td><td id="nilai_pjok" class="text-center col-nilai"></td><td id="deskripsi_pjok" class="col-capai"></td></tr>
+    <tr><td>8</td><td>Bahasa Indonesia</td><td id="nilai_bindo" class="text-center col-nilai"></td><td id="deskripsi_bindo" class="col-capai"></td></tr>
+    <tr><td>9</td><td>TIK/Informatika</td><td id="nilai_tik" class="text-center col-nilai"></td><td id="deskripsi_tik" class="col-capai"></td></tr>
   </table>
 
   <!-- Kelompok B -->
   <div class="section-title">Kelompok B</div>
-  <table>
+  <table class="compact">
     <tr>
       <th class="col-no">No.</th><th class="col-mapel">Mata Pelajaran</th>
       <th class="col-nilai">Nilai Akhir</th><th class="col-capai">Capaian Kompetensi</th>
     </tr>
-    <tr><td>1</td><td>Adab, Hadits dan Do'a (AHD)</td><td id="nilai_ahd" class="text-center"></td><td id="deskripsi_ahd"></td></tr>
-    <tr><td>2</td><td>T2Q</td><td id="nilai_t2q" class="text-center"></td><td id="deskripsi_t2q"></td></tr>
-    <tr><td>3</td><td>Sirah</td><td id="nilai_sirah" class="text-center"></td><td id="deskripsi_sirah"></td></tr>
+    <tr><td>1</td><td>Adab, Hadits dan Do'a (AHD)</td><td id="nilai_ahd" class="text-center col-nilai"></td><td id="deskripsi_ahd" class="col-capai"></td></tr>
+    <tr><td>2</td><td>T2Q</td><td id="nilai_t2q" class="text-center col-nilai"></td><td id="deskripsi_t2q" class="col-capai"></td></tr>
+    <tr><td>3</td><td>Sirah</td><td id="nilai_sirah" class="text-center col-nilai"></td><td id="deskripsi_sirah" class="col-capai"></td></tr>
   </table>
 
   <!-- Ekstrakurikuler -->
-  <table>
+  <table class="compact">
     <tr>
       <th class="col-no">No.</th><th class="col-mapel">Ekstrakurikuler</th>
       <th class="col-nilai">Predikat</th><th class="col-capai">Keterangan</th>
@@ -87,15 +133,16 @@
     <tr><td>2</td><td id="ekskul2"></td><td id="predikat2" class="text-center"></td><td id="ket2" class="text-center"></td></tr>
     <tr><td>3</td><td id="ekskul3"></td><td id="predikat3" class="text-center"></td><td id="ket3" class="text-center"></td></tr>
   </table>
+
   <!-- Catatan Guru -->
   <div class="section-title-center">Catatan Guru</div>
-  <table>
+  <table class="compact">
     <tr><td class="text-center" id="catatan_guru"></td></tr>
   </table>
 
   <!-- Ketidakhadiran -->
   <div class="section-title">Ketidakhadiran</div>
-  <table class="half-table">
+  <table class="compact half-table">
     <tr><td>Sakit</td><td>: <span id="sakit"></span> Hari</td></tr>
     <tr><td>Izin</td><td>: <span id="izin"></span> Hari</td></tr>
     <tr><td>Tanpa Keterangan</td><td>: <span id="alpa"></span> Hari</td></tr>
@@ -119,87 +166,95 @@
     </div>
   </div>
 
+  <!-- tombol cetak (screen only) -->
+  <button class="print-btn no-print" onclick="window.print()">Cetak</button>
+
 <script>
-  // Ambil data dari localStorage
+  // safe setter: hindari error jika elemen tidak ada
+  function safeSet(id, value) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerText = value == null ? "" : value;
+  }
+
+  // Ambil data dari localStorage & isi rapor
   window.onload = () => {
-    let data = JSON.parse(localStorage.getItem("raporData") || "{}");
+    const data = JSON.parse(localStorage.getItem("raporData") || "{}");
     isiRapor(data);
 
     // auto-print jika query string ada ?print=1
     if (window.location.search.includes("print=1")) {
-      setTimeout(() => {
-        window.print();
-      }, 500);
+      // beri waktu kecil supaya DOM terisi
+      setTimeout(() => { window.print(); }, 500);
 
-      // otomatis menutup tab setelah print
+      // close tab setelah print (hanya akan berhasil jika tab dibuka oleh script)
       window.onafterprint = () => {
-        window.close();
+        try { window.close(); } catch (e) { /* ignore */ }
       };
     }
-  }
+  };
 
   function isiRapor(data) {
-    // Identitas
-    document.getElementById("nama_siswa").innerText = data["Nama Peserta Didik"] || "";
-    document.getElementById("kelas").innerText = data["Kelas"] || "";
-    document.getElementById("nisn").innerText = data["NISN"] || "";
-    document.getElementById("nis").innerText = data["NIS"] || "";
-    document.getElementById("fase").innerText = data["Fase"] || "";
-    document.getElementById("semester").innerText = data["Semester"] || "";
-    document.getElementById("tahun_ajaran").innerText = data["Tahun Ajaran"] || "";
+    // identitas
+    safeSet("nama_siswa", data["Nama Peserta Didik"] || data["Nama"] || "");
+    safeSet("kelas", data["Kelas"] || data["Kelas / Rombel"] || "");
+    safeSet("nisn", data["NISN"] || "");
+    safeSet("nis", data["NIS"] || "");
+    safeSet("fase", data["Fase"] || "");
+    safeSet("semester", data["Semester"] || "");
+    safeSet("tahun_ajaran", data["Tahun Ajaran"] || "");
 
     // Kelompok A
-    document.getElementById("nilai_pai").innerText = data["Nilai PAI"] || "";
-    document.getElementById("deskripsi_pai").innerText = data["Deskripsi PAI"] || "";
-    document.getElementById("nilai_pkn").innerText = data["Nilai PKN"] || "";
-    document.getElementById("deskripsi_pkn").innerText = data["Deskripsi PKN"] || "";
-    document.getElementById("nilai_bing").innerText = data["Nilai B. Inggris"] || "";
-    document.getElementById("deskripsi_bing").innerText = data["Deskripsi B. Inggris"] || "";
-    document.getElementById("nilai_ipas").innerText = data["Nilai IPAS"] || "";
-    document.getElementById("deskripsi_ipas").innerText = data["Deskripsi IPAS"] || "";
-    document.getElementById("nilai_mtk").innerText = data["Nilai MTK"] || "";
-    document.getElementById("deskripsi_mtk").innerText = data["Deskripsi MTK"] || "";
-    document.getElementById("nilai_barab").innerText = data["Nilai B. Arab"] || "";
-    document.getElementById("deskripsi_barab").innerText = data["Deskripsi B. Arab"] || "";
-    document.getElementById("nilai_pjok").innerText = data["Nilai PJOK"] || "";
-    document.getElementById("deskripsi_pjok").innerText = data["Deskripsi PJOK"] || "";
-    document.getElementById("nilai_bindo").innerText = data["Nilai B.INDO"] || "";
-    document.getElementById("deskripsi_bindo").innerText = data["Deskripsi B.INDO"] || "";
-    document.getElementById("nilai_tik").innerText = data["Nilai TIK"] || "";
-    document.getElementById("deskripsi_tik").innerText = data["Deskripsi TIK"] || "";
+    safeSet("nilai_pai", data["Nilai PAI"] || data["PAI"] || "");
+    safeSet("deskripsi_pai", data["Deskripsi PAI"] || data["Deskripsi PAI "] || data["Deskripsi PAI"] || "");
+    safeSet("nilai_pkn", data["Nilai PKN"] || data["PKN"] || "");
+    safeSet("deskripsi_pkn", data["Deskripsi PKN"] || "");
+    safeSet("nilai_bing", data["Nilai B. Inggris"] || data["Nilai B Inggris"] || "");
+    safeSet("deskripsi_bing", data["Deskripsi B. Inggris"] || "");
+    safeSet("nilai_ipas", data["Nilai IPAS"] || data["IPAS"] || "");
+    safeSet("deskripsi_ipas", data["Deskripsi IPAS"] || "");
+    safeSet("nilai_mtk", data["Nilai MTK"] || data["Nilai MATEMATIKA"] || "");
+    safeSet("deskripsi_mtk", data["Deskripsi MTK"] || data["Deskripsi MATEMATIKA"] || "");
+    safeSet("nilai_barab", data["Nilai B. Arab"] || data["Nilai B. ARAB"] || "");
+    safeSet("deskripsi_barab", data["Deskripsi B. Arab"] || data["Deskripsi B. ARAB"] || "");
+    safeSet("nilai_pjok", data["Nilai PJOK"] || "");
+    safeSet("deskripsi_pjok", data["Deskripsi PJOK"] || "");
+    safeSet("nilai_bindo", data["Nilai B.INDO"] || data["Nilai B. INDO"] || data["B.INDO"] || "");
+    safeSet("deskripsi_bindo", data["Deskripsi B.INDO"] || "");
+    safeSet("nilai_tik", data["Nilai TIK"] || "");
+    safeSet("deskripsi_tik", data["Deskripsi TIK"] || "");
 
     // Kelompok B
-    document.getElementById("nilai_ahd").innerText = data["Nilai AHD"] || "";
-    document.getElementById("deskripsi_ahd").innerText = data["Deskripsi AHD"] || "";
-    document.getElementById("nilai_t2q").innerText = data["Nilai T2Q"] || "";
-    document.getElementById("deskripsi_t2q").innerText = data["Deskripsi T2Q"] || "";
-    document.getElementById("nilai_sirah").innerText = data["Nilai SIROH"] || "";
-    document.getElementById("deskripsi_sirah").innerText = data["Deskripsi SIROH"] || "";
+    safeSet("nilai_ahd", data["Nilai AHD"] || data["AHD"] || "");
+    safeSet("deskripsi_ahd", data["Deskripsi AHD"] || "");
+    safeSet("nilai_t2q", data["Nilai T2Q"] || data["T2Q"] || "");
+    safeSet("deskripsi_t2q", data["Deskripsi T2Q"] || "");
+    safeSet("nilai_sirah", data["Nilai SIROH"] || data["SIROH"] || "");
+    safeSet("deskripsi_sirah", data["Deskripsi SIROH"] || "");
 
     // Ekstrakurikuler
-    document.getElementById("ekskul1").innerText = data["Ekskul 1"] || "";
-    document.getElementById("predikat1").innerText = data["Predikat 1"] || "";
-    document.getElementById("ket1").innerText = data["Keterangan 1"] || "";
-    document.getElementById("ekskul2").innerText = data["Ekskul 2"] || "";
-    document.getElementById("predikat2").innerText = data["Predikat 2"] || "";
-    document.getElementById("ket2").innerText = data["Keterangan 2"] || "";
-    document.getElementById("ekskul3").innerText = data["Ekskul 3"] || "";
-    document.getElementById("predikat3").innerText = data["Predikat 3"] || "";
-    document.getElementById("ket3").innerText = data["Keterangan 3"] || "";
+    safeSet("ekskul1", data["Ekskul 1"] || data["Ekstrakurikuler 1"] || "");
+    safeSet("predikat1", data["Predikat 1"] || "");
+    safeSet("ket1", data["Keterangan 1"] || "");
+    safeSet("ekskul2", data["Ekskul 2"] || "");
+    safeSet("predikat2", data["Predikat 2"] || "");
+    safeSet("ket2", data["Keterangan 2"] || "");
+    safeSet("ekskul3", data["Ekskul 3"] || "");
+    safeSet("predikat3", data["Predikat 3"] || "");
+    safeSet("ket3", data["Keterangan 3"] || "");
 
     // Catatan
-    document.getElementById("catatan_guru").innerText = data["Catatan Guru"] || "";
+    safeSet("catatan_guru", data["Catatan Guru"] || "");
 
     // Ketidakhadiran
-    document.getElementById("sakit").innerText = data["S"] || "0";
-    document.getElementById("izin").innerText = data["I"] || "0";
-    document.getElementById("alpa").innerText = data["A"] || "0";
+    safeSet("sakit", data["S"] || data["Sakit"] || "0");
+    safeSet("izin", data["I"] || data["Izin"] || "0");
+    safeSet("alpa", data["A"] || data["Alpa"] || "0");
 
-
-    // Tanda tangan
-    document.getElementById("tanggal").innerText = data["Tanggal"] || "";
-    document.getElementById("wali_kelas").innerText = data["Wali Kelas"] || "";
-    document.getElementById("kepala_sekolah").innerText = data["Kepala Sekolah"] || "";
+    // Tanda tangan & meta
+    safeSet("tanggal", data["Tanggal"] || data["Tanggal Cetak"] || "");
+    safeSet("wali_kelas", data["Wali Kelas"] || "");
+    safeSet("kepala_sekolah", data["Kepala Sekolah"] || "");
   }
 </script>
 
