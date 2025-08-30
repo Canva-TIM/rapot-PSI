@@ -12,7 +12,7 @@
     .section-title { font-weight: bold; margin-top: 8px; margin-bottom: 4px; text-align: left; }
     .section-title-center { font-weight: bold; margin-top: 8px; margin-bottom: 4px; text-align: center; }
     .footer { margin-top: 40px; }
-    .ttd-row { display: flex; justify-content: space-between; margin-bottom: 60px; }
+    .ttd-row { display: flex; justify-content: space-between; margin-bottom: 40px; }
     .ttd { width: 45%; text-align: center; }
     .ttd-bottom { text-align: center; margin-top: 40px; }
     .col-no { width: 5%; text-align: center; }
@@ -87,12 +87,6 @@
     <tr><td>2</td><td id="ekskul2"></td><td id="predikat2" class="text-center"></td><td id="ket2" class="text-center"></td></tr>
     <tr><td>3</td><td id="ekskul3"></td><td id="predikat3" class="text-center"></td><td id="ket3" class="text-center"></td></tr>
   </table>
-
-  <!-- Keterangan Naik Kelas -->
-  <table>
-    <tr><td><b>Naik Kelas / Tinggal Kelas</b></td><td>: <span id="naik_kelas"></span></td></tr>
-  </table>
-
   <!-- Catatan Guru -->
   <div class="section-title-center">Catatan Guru</div>
   <table>
@@ -151,10 +145,10 @@
     document.getElementById("deskripsi_bing").innerText = data["Deskripsi B. Inggris"] || "";
     document.getElementById("nilai_ipas").innerText = data["Nilai IPAS"] || "";
     document.getElementById("deskripsi_ipas").innerText = data["Deskripsi IPAS"] || "";
-    document.getElementById("nilai_mtk").innerText = data["Nilai MATEMATIKA"] || "";
-    document.getElementById("deskripsi_mtk").innerText = data["Deskripsi MATEMATIKA"] || "";
-    document.getElementById("nilai_barab").innerText = data["Nilai B. ARAB"] || "";
-    document.getElementById("deskripsi_barab").innerText = data["Deskripsi B. ARAB"] || "";
+    document.getElementById("nilai_mtk").innerText = data["Nilai MTK"] || "";
+    document.getElementById("deskripsi_mtk").innerText = data["Deskripsi MTK"] || "";
+    document.getElementById("nilai_barab").innerText = data["Nilai B. Arab"] || "";
+    document.getElementById("deskripsi_barab").innerText = data["Deskripsi B. Arab"] || "";
     document.getElementById("nilai_pjok").innerText = data["Nilai PJOK"] || "";
     document.getElementById("deskripsi_pjok").innerText = data["Deskripsi PJOK"] || "";
     document.getElementById("nilai_bindo").innerText = data["Nilai B.INDO"] || "";
@@ -189,8 +183,6 @@
     document.getElementById("izin").innerText = data["I"] || "0";
     document.getElementById("alpa").innerText = data["A"] || "0";
 
-    // Naik Kelas
-    document.getElementById("naik_kelas").innerText = data["Naik Kelas"] || "";
 
     // Tanda tangan
     document.getElementById("tanggal").innerText = data["Tanggal"] || "";
