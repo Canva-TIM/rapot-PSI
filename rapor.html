@@ -54,7 +54,7 @@
 </head>
 <body>
 <div id="pdf-content">
-  <!-- Identitas -->
+<!-- Identitas Siswa (compact, no-border for layout) -->
   <table class="no-border compact">
     <tr>
       <td>Nama Peserta Didik</td><td>: <span id="nama_siswa"></span></td>
@@ -76,17 +76,52 @@
 
   <h3 class="center">LAPORAN HASIL BELAJAR SUMATIF AKHIR SEMESTER</h3>
 
-  <!-- contoh: kelompok A -->
+  <!-- Kelompok A -->
   <div class="section-title">Kelompok A</div>
   <table class="compact">
-    <tr><th class="col-no">No.</th><th class="col-mapel">Mata Pelajaran</th><th class="col-nilai">Nilai</th><th class="col-capai">Capaian</th></tr>
-    <tr><td>1</td><td>Pendidikan Agama Islam</td><td id="nilai_pai"></td><td id="deskripsi_pai"></td></tr>
-    <!-- dst (sudah sesuai versi kamu sebelumnya, saya singkat di sini) -->
+    <tr>
+      <th class="col-no">No.</th><th class="col-mapel">Mata Pelajaran</th>
+      <th class="col-nilai">Nilai Akhir</th><th class="col-capai">Capaian Kompetensi</th>
+    </tr>
+    <tr><td class="col-no">1</td><td>Pendidikan Agama Islam dan Budi Pekerti</td><td id="nilai_pai" class="text-center col-nilai"></td><td id="deskripsi_pai" class="col-capai"></td></tr>
+    <tr><td class="col-no">2</td><td>Pancasila</td><td id="nilai_pkn" class="text-center col-nilai"></td><td id="deskripsi_pkn" class="col-capai"></td></tr>
+    <tr><td class="col-no">3</td><td>Bahasa Inggris</td><td id="nilai_bing" class="text-center col-nilai"></td><td id="deskripsi_bing" class="col-capai"></td></tr>
+    <tr><td class="col-no">4</td><td>Ilmu Pengetahuan Alam dan Sosial</td><td id="nilai_ipas" class="text-center col-nilai"></td><td id="deskripsi_ipas" class="col-capai"></td></tr>
+    <tr><td class="col-no">5</td><td>Matematika</td><td id="nilai_mtk" class="text-center col-nilai"></td><td id="deskripsi_mtk" class="col-capai"></td></tr>
+    <tr><td class="col-no">6</td><td>Bahasa Arab</td><td id="nilai_barab" class="text-center col-nilai"></td><td id="deskripsi_barab" class="col-capai"></td></tr>
+    <tr><td class="col-no">7</td><td>Pendidikan Jasmani, Olahraga, dan Kesehatan</td><td id="nilai_pjok" class="text-center col-nilai"></td><td id="deskripsi_pjok" class="col-capai"></td></tr>
+    <tr><td class="col-no">8</td><td>Bahasa Indonesia</td><td id="nilai_bindo" class="text-center col-nilai"></td><td id="deskripsi_bindo" class="col-capai"></td></tr>
+    <tr><td class="col-no">9</td><td>TIK/Informatika</td><td id="nilai_tik" class="text-center col-nilai"></td><td id="deskripsi_tik" class="col-capai"></td></tr>
+  </table>
+
+  <!-- Kelompok B -->
+  <div class="section-title">Kelompok B</div>
+  <table class="compact">
+    <tr>
+      <th class="col-no">No.</th><th class="col-mapel">Mata Pelajaran</th>
+      <th class="col-nilai">Nilai Akhir</th><th class="col-capai">Capaian Kompetensi</th>
+    </tr>
+    <tr><td class="col-no">1</td><td>Adab, Hadits dan Do'a (AHD)</td><td id="nilai_ahd" class="text-center col-nilai"></td><td id="deskripsi_ahd" class="col-capai"></td></tr>
+    <tr><td class="col-no">2</td><td>T2Q</td><td id="nilai_t2q" class="text-center col-nilai"></td><td id="deskripsi_t2q" class="col-capai"></td></tr>
+    <tr><td class="col-no">3</td><td>Sirah</td><td id="nilai_sirah" class="text-center col-nilai"></td><td id="deskripsi_sirah" class="col-capai"></td></tr>
+  </table>
+
+  <!-- Ekstrakurikuler -->
+  <table class="compact">
+    <tr>
+      <th class="col-no">No.</th><th class="col-mapel">Ekstrakurikuler</th>
+      <th class="col-nilai">Predikat</th><th class="col-capai">Keterangan</th>
+    </tr>
+    <tr><td>1</td><td id="ekskul1"></td><td id="predikat1" class="text-center"></td><td id="ket1" class="text-center"></td></tr>
+    <tr><td>2</td><td id="ekskul2"></td><td id="predikat2" class="text-center"></td><td id="ket2" class="text-center"></td></tr>
+    <tr><td>3</td><td id="ekskul3"></td><td id="predikat3" class="text-center"></td><td id="ket3" class="text-center"></td></tr>
   </table>
 
   <!-- Catatan Guru -->
   <div class="section-title-center">Catatan Guru</div>
-  <table class="compact"><tr><td class="text-center" id="catatan_guru"></td></tr></table>
+  <table class="compact">
+    <tr><td class="text-center" id="catatan_guru"></td></tr>
+  </table>
 
   <!-- Ketidakhadiran -->
   <div class="section-title">Ketidakhadiran</div>
@@ -99,11 +134,20 @@
   <!-- Tanda tangan -->
   <div class="footer">
     <div class="ttd-row">
-      <div class="ttd"><p>Orang Tua/ Wali</p><br><br><br><p>...........................</p></div>
-      <div class="ttd"><p>Kaur, <span id="tanggal"></span><br>Wali Kelas,</p><br><br><br><p><b id="wali_kelas"></b></p></div>
+      <div class="ttd">
+        <p>Orang Tua/ Wali Peserta Didik</p><br><br><br>
+        <p>................................</p>
+      </div>
+      <div class="ttd">
+        <p>Kaur, <span id="tanggal"></span><br>Wali Kelas,</p><br><br><br>
+        <p><b id="wali_kelas"></b></p>
+      </div>
     </div>
-    <div class="ttd-bottom"><p>Kepala Sekolah,</p><br><br><br><p><b id="kepala_sekolah"></b></p></div>
-  </div>
+    <div class="ttd-bottom">
+      <p>Kepala Sekolah,</p><br><br><br>
+      <p><b id="kepala_sekolah"></b></p>
+    </div>
+  </div>>
 </div>
 
 <button class="print-btn no-print" onclick="window.print()">Cetak</button>
