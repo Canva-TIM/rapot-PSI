@@ -5,7 +5,7 @@ async function cariRapor() {
     return;
   }
 
-  let apiURL = "https://script.google.com/macros/s/AKfycbzh-MV7VnhDHJh6dqp9utKw-cLy0BXLZhS-XHTpbMHWPdK623MpNGxfN3LWu_rdlVY6/exec?nisn=" + nisn;
+  let apiURL = "https://script.google.com/macros/s/AKfycbzh-MV7VnhDHJh6dqp9utKw-cLy0BXLZhS-XHTpbMHWPdK623MpNGxfN3LWu_rdlVY6/exec?nisn=" + encodeURIComponent(nisn);
 
   try {
     document.getElementById("floating-loading").style.display = "block";
@@ -13,32 +13,38 @@ async function cariRapor() {
     let data = await res.json();
     document.getElementById("floating-loading").style.display = "none";
 
-    if (data && data["NISN"]) {if (data && data["NISN"]) {
-  localStorage.setItem("raporData", JSON.stringify(data));
+    if (data && data["NISN"]) {
+      // simpan data dan tampilkan modal
+      localStorage.setItem("raporData", JSON.stringify(data));
 
-  // tampilkan modal
-  document.getElementById("modal").style.display = "block";
+      const modal = document.getElementById("modal");
+      modal.classList.add("show-modal"); // tampilkan modal (display:flex via class)
+      document.getElementById("modal-info").innerText =
+        "Rapor atas nama " + (data["Nama Peserta Didik"] || "") + " ditemukan!";
 
-  // isi nama siswa di modal
-  document.getElementById("modal-info").innerText = 
-    "Rapor atas nama " + data["Nama Peserta Didik"] + " ditemukan!";
+      // tombol lihat
+      document.getElementById("lihatBtn").onclick = () => {
+        modal.classList.remove("show-modal");
+        window.location.href = "rapor.html";
+      };
 
-  // tombol lihat
-  document.getElementById("lihatBtn").onclick = () => {
-    window.location.href = "rapor.html";
-  };
+      // tombol unduh (buka tab baru dan auto-print)
+      document.getElementById("unduhBtn").onclick = () => {
+        modal.classList.remove("show-modal");
+        window.open("rapor.html?print=1", "_blank");
+      };
 
-  // tombol unduh
-  document.getElementById("unduhBtn").onclick = () => {
-    window.location.href = "rapor.html?print=1";
-  };
+      // tombol close
+      document.getElementById("closeBtn").onclick = () => {
+        modal.classList.remove("show-modal");
+      };
 
-  // tombol close
-  document.getElementById("closeBtn").onclick = () => {
-    document.getElementById("modal").style.display = "none";
-  };
-}
- else {
+      // tutup modal kalau klik overlay (di luar #modal-content)
+      modal.onclick = (e) => {
+        if (e.target === modal) modal.classList.remove("show-modal");
+      };
+
+    } else {
       alert("Data tidak ditemukan. Periksa kembali NISN/NIS.");
     }
   } catch (err) {
