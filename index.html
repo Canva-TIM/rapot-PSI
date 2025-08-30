@@ -1,118 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Rapor Online | SD PSI Fathir Alfath</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Open Graph untuk Thumbnail -->
+    <meta property="og:title" content="Rapor Online | SD PSI Fathir Alfath">
+    <meta property="og:description" content="Cek rapor online dengan mudah menggunakan NISN atau NIS.">
+    <meta property="og:image" content="https://rapor-psi.vercel.app/images/logo.png">
+    <meta property="og:url" content="https://rapor-psi.vercel.app">
+    <meta property="og:type" content="website">
+    <title>Rapor Online | SD PSI Fathir Alfath</title>
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Rapor Online | SD PSI Fathir Alfath">
-  <meta property="og:description" content="Cek rapor online dengan mudah menggunakan NISN atau NIS.">
-  <meta property="og:image" content="https://rapor-psi.vercel.app/images/logo.png">
-  <meta property="og:url" content="https://rapor-psi.vercel.app">
-  <meta property="og:type" content="website">
-
-  <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
-  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="css/style.css">
-
-  <style>
-    /* Modal Overlay */
-    #modal {
-      display: none; /* Awalnya hidden */
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.5); /* background transparan */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* Konten Modal */
-    #modal-content {
-      background: #fff;
-      padding: 20px 30px;
-      border-radius: 12px;
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-      animation: fadeIn 0.3s ease-in-out;
-    }
-
-    /* Tombol dalam modal */
-    #modal-content button {
-      margin: 8px;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: 0.2s;
-    }
-    #lihatBtn { background-color: #17a2b8; color: white; }
-    #unduhBtn { background-color: #007bff; color: white; }
-    #closeBtn { background-color: #6c757d; color: white; }
-    #modal-content button:hover { opacity: 0.85; }
-
-    /* Animasi muncul */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to   { opacity: 1; transform: scale(1); }
-    }
-  </style>
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    
+    <!-- Main css -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="main">
-    <section class="sign-in">
-      <div class="container">
-        <div class="signin-content">
-          <div class="signin-image">
-            <figure><img src="images/signup-image.jpg" alt="Rapor Online"></figure>
-          </div>
-          <div class="signin-form">
-            <img src="images/erapor.png" alt="Logo Sekolah" class="logo">
-            <img src="images/logo.png" alt="Logo Sekolah" class="logo">
-            <h3 class="form-title">Masukkan NISN atau NIS untuk Melihat Rapor</h3>
-            <div class="form-group">
-              <label for="nisn"><i class="zmdi zmdi-account material-icons-name"></i></label>
-              <input type="text" id="nisn" placeholder="Masukkan NISN">
+    <div id="toast" class="toast"></div>
+    <div class="main">
+       <!-- Sing in  Form -->
+        <section class="sign-in">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="images/signup-image.jpg" alt="Rapor Online"></figure>
+                    </div>
+                    <div class="signin-form">
+                    <img src="images/erapor.png" alt="Logo Sekolah" class="logo">
+                      <img src="images/logo.png" alt="Logo Sekolah" class="logo">
+                        <h3 class="form-title">Masukkan NISN atau NIS untuk Melihat Rapor</h3>   
+                            <div class="form-group">
+                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" id="nisn" placeholder="Masukkan NISN">
+                            </div>
+                             <div class="form-group form-button">
+                                 <button onclick="cariRapor()" class="form-submit">Lihat Rapor</button>
+                            </div>
+                      </div>
+                </div>
             </div>
-            <div class="form-group form-button">
-              <button onclick="cariRapor()" class="form-submit">Lihat Rapor</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- Floating Loading -->
-  <div id="floating-loading" style="display:none;">
-    <img src="images/loading.gif" alt="Loading...">
-  </div>
-
-  <!-- Modal Pop-up -->
-  <div id="modal">
-    <div id="modal-content">
-      <h3 id="modal-info">Rapor Ditemukan!</h3>
-      <p>Silakan pilih aksi:</p>
-      <button id="lihatBtn">Lihat</button>
-      <button id="unduhBtn">Unduh</button>
-      <button id="closeBtn">Tutup</button>
+        </section>
     </div>
-  </div>
 
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="js/main.js"></script>
+<!-- Floating Loading -->
+<div id="floating-loading">
+    <img src="images/loading.gif" alt="Loading...">
+</div>
 
-  <footer style="text-align:center;padding:10px;color:black;">
+<!-- Modal Pop-up -->
+<div id="modal">
+    <div id="modal-content">
+        <h3 id="modal-info">Rapor Ditemukan!</h3>
+        <p>Silakan Unduh untuk melihat rapor:</p>
+        <button class="btn btn-info" id="lihatBtn">Lihat</button>
+        <button class="btn btn-primary" id="unduhBtn">Unduh</button>
+        <button class="btn btn-secondary" id="closeBtn">Close</button>
+    </div>
+</div>
+
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+    <footer style="text-align: center; padding: 10px; color: black; bottom: 0; width: 100%;">
     Develop by TIM IT PSI Fathir Alfath
-  </footer>
+</footer>
+
 </body>
 </html>
