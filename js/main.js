@@ -28,10 +28,9 @@ async function cariRapor() {
         window.location.href = "rapor.html";
       };
 
-      // tombol unduh (buka tab baru dan auto-print)
+      // Tombol unduh (langsung PDF)
       document.getElementById("unduhBtn").onclick = () => {
-        modal.classList.remove("show-modal");
-        window.open("rapor.html?print=1", "_blank");
+        window.location.href = "rapor.html?dl=1";
       };
 
       // tombol close
@@ -52,3 +51,4 @@ async function cariRapor() {
     alert("Gagal mengambil data: " + err);
   }
 }
+
