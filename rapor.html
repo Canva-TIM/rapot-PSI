@@ -124,6 +124,18 @@
   window.onload = () => {
     let data = JSON.parse(localStorage.getItem("raporData") || "{}");
     isiRapor(data);
+
+    // auto-print jika query string ada ?print=1
+    if (window.location.search.includes("print=1")) {
+      setTimeout(() => {
+        window.print();
+      }, 500);
+
+      // otomatis menutup tab setelah print
+      window.onafterprint = () => {
+        window.close();
+      };
+    }
   }
 
   function isiRapor(data) {
@@ -190,17 +202,6 @@
     document.getElementById("kepala_sekolah").innerText = data["Kepala Sekolah"] || "";
   }
 </script>
-window.onload = () => {
-  let data = JSON.parse(localStorage.getItem("raporData") || "{}");
-  isiRapor(data);
-
-  // auto-print jika query string ada ?print=1
-  if (window.location.search.includes("print=1")) {
-    setTimeout(() => {
-      window.print();
-    }, 500);
-  }
-};
 
 </body>
 </html>
