@@ -69,7 +69,11 @@ function isiRapor(data) {
         const ket = data[`Keterangan ${i}`] || "";
         const table = document.getElementById("tabelEkskul");
         const row = table.insertRow(-1);
-        row.innerHTML = `<td>${i}</td><td>${ekskul}</td><td class="text-center">${pred}</td><td class="text-center">${ket}</td>`;
+        row.innerHTML = `
+            <td class="col-no text-center">${i}</td>
+            <td>${ekskul}</td>
+            <td class="col-nilai text-center">${pred}</td>
+            <td class="col-capai text-center">${ket}</td>`;
     }
 
     // Catatan & ketidakhadiran
