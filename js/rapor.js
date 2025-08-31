@@ -14,28 +14,21 @@ function tambahBaris(tabelId, no, mapel, nilai, deskripsi) {
 
 function normalizeFileName(name) {
   return name
-    .replace(/[^a-zA-Z0-9]/g, "_")   // ganti semua karakter asing jadi "_"
-    .replace(/_+/g, "_")             // rapatkan kalau ada "__"
-    .replace(/^_|_$/g, "")           // hapus "_" di awal/akhir
-    .toLowerCase() + ".png";         // jadikan lowercase
+    .replace(/[^a-zA-Z0-9]/g, "_")
+    .replace(/_+/g, "_")
+    .replace(/^_|_$/g, "")
+    .toLowerCase() + ".png";
 }
 
-// 🔹 fungsi format tanggal Indo
 function formatTanggalIndo(dateString) {
   if(!dateString) return "";
   const bulanIndo = [
-    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    "Januari","Februari","Maret","April","Mei","Juni",
+    "Juli","Agustus","September","Oktober","November","Desember"
   ];
-
   const date = new Date(dateString);
-  if(isNaN(date)) return dateString; // fallback kalau bukan tanggal valid
-
-  const tgl = date.getDate();
-  const bln = bulanIndo[date.getMonth()];
-  const thn = date.getFullYear();
-
-  return `${tgl} ${bln} ${thn}`;
+  if(isNaN(date)) return dateString;
+  return `${date.getDate()} ${bulanIndo[date.getMonth()]} ${date.getFullYear()}`;
 }
 
 function isiRapor(data) {
@@ -47,12 +40,9 @@ function isiRapor(data) {
   safeSet("fase", data["Fase"]);
   safeSet("semester", data["Semester"]);
   safeSet("tahun_ajaran", data["Tahun Ajaran"]);
+  safeSet("tanggal", formatTanggalIndo(data["Tanggal"]));
 
-  // 🔹 Format tanggal jadi versi Indonesia
-  const tanggalFormatted = formatTanggalIndo(data["Tanggal"]);
-  safeSet("tanggal", tanggalFormatted);
-
-  // Nilai Kelompok A
+  // Kelompok A
   const mapelA = [
     ["Pendidikan Agama Islam dan Budi Pekerti","Nilai PAI","Deskripsi PAI"],
     ["Pancasila","Nilai PKN","Deskripsi PKN"],
@@ -66,7 +56,7 @@ function isiRapor(data) {
   ];
   mapelA.forEach((m,i)=> tambahBaris("tabelKelA", i+1, m[0], data[m[1]], data[m[2]]));
 
-  // Nilai Kelompok B
+  // Kelompok B
   const mapelB = [
     ["Adab, Hadits dan Do'a (AHD)","Nilai AHD","Deskripsi AHD"],
     ["T2Q","Nilai T2Q","Deskripsi T2Q"],
@@ -94,35 +84,35 @@ function isiRapor(data) {
   document.getElementById("ttd_wali").style.display = "none";
   safeSet("nama_wali","................................");
 
-  // Wali kelas → otomatis dari nama di database
+  // Wali kelas
   const waliKelas = data["Wali Kelas"] || "";
   document.getElementById("wali_kelas").innerText = waliKelas;
-
-  // Ambil ttd wali kelas dari folder "images/" dengan nama file dinormalisasi
-  const fileName = normalizeFileName(waliKelas);
-  document.getElementById("ttd_wali_kelas").src = "images/" + fileName;
+  document.getElementById("ttd_wali_kelas").src = "images/" + normalizeFileName(waliKelas);
 
   // Kepala sekolah & cap
   document.getElementById("ttd_kepala").src = "images/ttd_kepala.png";
   document.getElementById("cap_sekolah").src = "images/cap_sekolah.png";
 }
 
-// Auto load data dari localStorage (contoh)
+// 🔹 Fungsi download PDF
+function downloadPDF() {
+  document.getElementById("floating-loading").style.display = "block";
+  const el = document.getElementById('pdf-content');
+  html2pdf().set({
+    margin: [0.566,1,0.212,1],
+    unit: 'cm',
+    filename: (document.getElementById('nama_siswa').innerText || 'rapor') + '.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 4, useCORS: true },
+    jsPDF: { unit: 'cm', format: [21.59,33.02], orientation: 'portrait' }
+  }).from(el).save().finally(()=>{
+    document.getElementById("floating-loading").style.display = "none";
+  });
+}
+
+
+// Auto load data
 window.onload = () => {
   const data = JSON.parse(localStorage.getItem("raporData") || "{}");
   isiRapor(data);
-
-  // Jika url ada ?dl=1 → otomatis download PDF
-  if(window.location.search.includes("dl=1")){
-    setTimeout(()=> {
-      const el = document.getElementById('pdf-content');
-      html2pdf().set({
-        margin: [0.566,1,0.212,1], unit:'cm',
-        filename:(document.getElementById('nama_siswa').innerText||'rapor')+'.pdf',
-        image:{type:'jpeg',quality:0.98},
-        html2canvas:{scale:4,useCORS:true},
-        jsPDF:{unit:'cm', format:[21.59,33.02], orientation:'portrait'}
-      }).from(el).save();
-    },500);
-  }
 };
