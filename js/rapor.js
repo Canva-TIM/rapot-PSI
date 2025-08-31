@@ -13,9 +13,13 @@ function tambahBaris(tabelId, no, mapel, nilai, deskripsi) {
 }
 
 function normalizeFileName(name) {
-  // Ganti semua karakter selain huruf dan angka dengan underscore
-  return name.replace(/[^a-zA-Z0-9]/g,"_") + ".png";
+  return name
+    .replace(/[^a-zA-Z0-9]/g, "_")   // ganti semua karakter asing jadi "_"
+    .replace(/_+/g, "_")             // rapatkan kalau ada "__"
+    .replace(/^_|_$/g, "")           // hapus "_" di awal/akhir
+    .toLowerCase() + ".png";         // jadikan lowercase
 }
+
 
 function isiRapor(data) {
   // Identitas
