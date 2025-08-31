@@ -12,6 +12,11 @@ function tambahBaris(tabelId, no, mapel, nilai, deskripsi) {
                    <td class="col-capai">${deskripsi}</td>`;
 }
 
+function normalizeFileName(name) {
+  // Ganti semua karakter selain huruf dan angka dengan underscore
+  return name.replace(/[^a-zA-Z0-9]/g,"_") + ".png";
+}
+
 function isiRapor(data) {
   // Identitas
   safeSet("nama_siswa", data["Nama Peserta Didik"]);
@@ -65,18 +70,19 @@ function isiRapor(data) {
   document.getElementById("ttd_wali").style.display = "none";
   safeSet("nama_wali","................................");
 
-// Wali kelas → otomatis dari nama di database
-const waliKelas = data["Wali Kelas"] || "";
-document.getElementById("wali_kelas").innerText = waliKelas;
+  // Wali kelas → otomatis dari nama di database
+  const waliKelas = data["Wali Kelas"] || "";
+  document.getElementById("wali_kelas").innerText = waliKelas;
 
-// Ambil ttd wali kelas dari folder "images/"
-const fileName = waliKelas.replace(/\s+/g, "_") + ".png";
-document.getElementById("ttd_wali_kelas").src = "images/" + fileName;
+  // Ambil ttd wali kelas dari folder "images/" dengan nama file dinormalisasi
+  const fileName = normalizeFileName(waliKelas);
+  document.getElementById("ttd_wali_kelas").src = "images/" + fileName;
 
   // Kepala sekolah & cap
   document.getElementById("ttd_kepala").src = "images/ttd_kepala.png";
   document.getElementById("cap_sekolah").src = "images/cap_sekolah.png";
 }
+
 
 // Auto load data dari localStorage (contoh)
 window.onload = () => {
