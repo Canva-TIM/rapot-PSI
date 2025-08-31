@@ -95,26 +95,25 @@ function isiRapor(data) {
 // Fungsi download PDF
 function downloadPDF() {
     const el = document.getElementById('pdf-content');
+    // tampilkan loading dulu
+    document.getElementById("floating-loading")?.style.display = "block";
+
     html2pdf().set({
         margin: [0.566,1,0.212,1],
         filename: (document.getElementById('nama_siswa').innerText || 'rapor') + '.pdf',
         image: { type:'jpeg', quality:0.98 },
         html2canvas: { scale:4, useCORS:true },
         jsPDF: { unit:'cm', format:[21.59,33.02], orientation:'portrait' }
-    }).from(el).save();
+    }).from(el).save().then(() => {
+        document.getElementById("floating-loading")?.style.display = "none";
+    });
 }
 
-// Auto load
+// Tombol Cetak di rapor.html
 window.onload = () => {
     const data = JSON.parse(localStorage.getItem("raporData") || "{}");
     isiRapor(data);
 
-    // Tombol cetak
     const cetakBtn = document.getElementById("cetakBtn");
     if(cetakBtn) cetakBtn.onclick = downloadPDF;
-
-    // Jika url ada ?dl=1 → otomatis download
-    if(window.location.search.includes("dl=1")){
-        downloadPDF();
-    }
 };
