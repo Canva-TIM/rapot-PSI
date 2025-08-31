@@ -28,15 +28,18 @@ async function cariRapor() {
         window.location.href = "rapor.html";
       };
 
-      // Tombol unduh (langsung PDF)
+      // Tombol unduh → langsung download PDF tanpa redirect
       document.getElementById("unduhBtn").onclick = () => {
-        window.location.href = "rapor.html?dl=1";
-      };
-        // 🔹 Tombol Cetak → langsung unduh PDF (bukan print preview)
-      document.getElementById("cetakBtn").onclick = () => {
-        window.location.href = "rapor.html?dl=1";
+        modal.classList.remove("show-modal");
+        if (window.location.pathname.includes("rapor.html")) {
+          downloadPDF();
+        } else {
+          window.location.href = "rapor.html"; // buka dulu kalau belum di rapor.html
+        }
       };
 
+      // Tombol Cetak → langsung download PDF
+      document.getElementById("cetakBtn").onclick = () => downloadPDF();
 
       // tombol close
       document.getElementById("closeBtn").onclick = () => {
@@ -56,5 +59,6 @@ async function cariRapor() {
     alert("Gagal mengambil data: " + err);
   }
 }
+
 
 
