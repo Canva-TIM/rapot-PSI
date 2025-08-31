@@ -20,6 +20,23 @@ function normalizeFileName(name) {
     .toLowerCase() + ".png";         // jadikan lowercase
 }
 
+// 🔹 fungsi format tanggal Indo
+function formatTanggalIndo(dateString) {
+  if(!dateString) return "";
+  const bulanIndo = [
+    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+  ];
+
+  const date = new Date(dateString);
+  if(isNaN(date)) return dateString; // fallback kalau bukan tanggal valid
+
+  const tgl = date.getDate();
+  const bln = bulanIndo[date.getMonth()];
+  const thn = date.getFullYear();
+
+  return `${tgl} ${bln} ${thn}`;
+}
 
 function isiRapor(data) {
   // Identitas
@@ -30,7 +47,10 @@ function isiRapor(data) {
   safeSet("fase", data["Fase"]);
   safeSet("semester", data["Semester"]);
   safeSet("tahun_ajaran", data["Tahun Ajaran"]);
-  safeSet("tanggal", data["Tanggal"]);
+
+  // 🔹 Format tanggal jadi versi Indonesia
+  const tanggalFormatted = formatTanggalIndo(data["Tanggal"]);
+  safeSet("tanggal", tanggalFormatted);
 
   // Nilai Kelompok A
   const mapelA = [
@@ -86,7 +106,6 @@ function isiRapor(data) {
   document.getElementById("ttd_kepala").src = "images/ttd_kepala.png";
   document.getElementById("cap_sekolah").src = "images/cap_sekolah.png";
 }
-
 
 // Auto load data dari localStorage (contoh)
 window.onload = () => {
