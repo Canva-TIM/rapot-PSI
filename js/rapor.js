@@ -76,7 +76,7 @@ function isiRapor(data) {
 
   // Ambil ttd wali kelas dari folder "images/" dengan nama file dinormalisasi
   const fileName = normalizeFileName(waliKelas);
-  document.getElementById("ttd_wali_kelas").src ="images/cap_sekolah.png";
+  document.getElementById("ttd_wali_kelas").src ="images/Dara_Notia_S_Pd.png";
 
   // Kepala sekolah & cap
   document.getElementById("ttd_kepala").src = "images/ttd_kepala.png";
