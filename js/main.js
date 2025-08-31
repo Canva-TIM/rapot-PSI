@@ -24,40 +24,47 @@ function cariRapor() {
     let nisnInput = document.getElementById("nisn").value.trim();
     if (!nisnInput) { alert("Masukkan NISN atau NIS"); return; }
 
-    const allData = JSON.parse(localStorage.getItem("allRaporData") || "[]");
-    const data = allData.find(d => d["NISN"] == nisnInput || d["NIS"] == nisnInput);
+    document.getElementById("floating-loading").style.display = "block";
 
-    if(!data){
-        alert("Data tidak ditemukan. Periksa kembali NISN/NIS.");
-        return;
-    }
+    setTimeout(() => {
+        const allData = JSON.parse(localStorage.getItem("allRaporData") || "[]");
+        const data = allData.find(d => d["NISN"] == nisnInput || d["NIS"] == nisnInput);
 
-    localStorage.setItem("raporData", JSON.stringify(data));
+        document.getElementById("floating-loading").style.display = "none";
 
-    const modal = document.getElementById("modal");
-    modal.classList.add("show-modal");
-    document.getElementById("modal-info").innerText =
-        "Rapor atas nama " + (data["Nama Peserta Didik"] || "") + " ditemukan!";
+        if(!data){
+            alert("Data tidak ditemukan. Periksa kembali NISN/NIS.");
+            return;
+        }
 
-    // Tombol lihat
-    document.getElementById("lihatBtn").onclick = () => {
-        modal.classList.remove("show-modal");
-        window.location.href = "rapor.html";
-    };
+        localStorage.setItem("raporData", JSON.stringify(data));
 
-    // Tombol unduh langsung PDF
-    document.getElementById("unduhBtn").onclick = () => {
-        modal.classList.remove("show-modal");
-        // langsung download di halaman utama
-        downloadRaporPDF();
-    };
+        const modal = document.getElementById("modal");
+        modal.classList.add("show-modal");
+        document.getElementById("modal-info").innerText =
+            "Rapor atas nama " + (data["Nama Peserta Didik"] || "") + " ditemukan!";
 
-    // Close modal
-    document.getElementById("closeBtn").onclick = () => modal.classList.remove("show-modal");
+        // Tombol lihat
+        document.getElementById("lihatBtn").onclick = () => {
+            modal.classList.remove("show-modal");
+            window.location.href = "rapor.html";
+        };
 
-    // klik overlay
-    modal.onclick = (e) => { if(e.target === modal) modal.classList.remove("show-modal"); };
-};
+        // Tombol unduh langsung PDF
+        document.getElementById("unduhBtn").onclick = () => {
+            modal.classList.remove("show-modal");
+            // buka rapor.html dengan query parameter ?dl=1
+            window.open("rapor.html?dl=1", "_blank"); 
+        };
+
+        // Close modal
+        document.getElementById("closeBtn").onclick = () => modal.classList.remove("show-modal");
+
+        // klik overlay
+        modal.onclick = (e) => { if(e.target === modal) modal.classList.remove("show-modal"); };
+    }, 500); // kasih delay 0.5 detik biar "loading" kelihatan
+}
+
 function downloadRaporPDF() {
     const data = JSON.parse(localStorage.getItem("raporData") || "{}");
     if(!data){ alert("Data rapor belum ada."); return; }
@@ -81,4 +88,5 @@ function downloadRaporPDF() {
         document.body.removeChild(tempDiv);
     });
 }
+
 
