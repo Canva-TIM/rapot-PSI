@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rapor SD PSI</title>
-<link rel="stylesheet" href="css/style.css">
 <style>
   body { font-family: 'Times New Roman', serif; margin: 40px; font-size: 14px; color: #000; }
   table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
@@ -17,7 +16,7 @@
   .footer { margin-top: 40px; }
   .ttd-row { display: flex; justify-content: space-between; margin-bottom: 40px; }
   .ttd { width: 45%; text-align: center; }
-  .ttd-bottom { text-align: center; margin-top: 40px; }
+  .ttd-bottom { text-align: center; margin-top: 60px; }
   .col-no { width: 5%; text-align: center; }
   .col-mapel { width:25%; text-align: justify; }
   .col-nilai { width: 8%; text-align: center; }
@@ -116,26 +115,28 @@
       </div>
       <!-- Wali Kelas -->
       <div class="ttd">
-        <p>Kaur, <span id="tanggal"></span><br>Wali Kelas,</p><br><br>
-        <img id="ttd_wali_kelas"  style="width:150px; display:block; margin:0 auto;">
-        <p id="wali_kelas"></p>
+        <p>Kaur, <span id="tanggal"></span><br>Wali Kelas,</p>
+        <div style="height:70px;"></div> <!-- jarak ±2cm -->
+        <img id="ttd_wali_kelas"  style="width:150px; display:block; margin:0 auto; margin-top:-60px;">
+        <p id="wali_kelas" style="margin-top:5px;"></p>
       </div>
     </div>
 
-<div class="ttd-bottom" style="position: relative; height: 200px;">
-  <p>Kepala Sekolah,</p><br><br>
-  
-  <!-- Container supaya cap menimpa ttd -->
-  <div style="position: relative; width: 180px; margin: 0 auto;">
-    <!-- Cap di atas TTD -->
-    <img id="cap_sekolah"
-         style="position: absolute; top: -20px; left: 0; width: 100%; z-index: 2;">
-    <!-- TTD kepala -->
-    <img id="ttd_kepala" 
-         style="position: relative; width: 100%; z-index: 1;">
-  </div>
-  <p>Elda Fuspita Sari, S.Pd</p>
-</div>
+    <!-- Kepala Sekolah -->
+    <div class="ttd-bottom" style="position: relative; height: 200px;">
+      <p>Kepala Sekolah,</p>
+      <div style="height:70px;"></div> <!-- jarak ±2cm -->
+      <!-- Container supaya cap menimpa ttd -->
+      <div style="position: relative; width: 180px; margin: 0 auto; margin-top:-60px;">
+        <!-- Cap di atas TTD -->
+        <img id="cap_sekolah"
+             style="position: absolute; top: -20px; left: 0; width: 100%; z-index: 2;">
+        <!-- TTD kepala -->
+        <img id="ttd_kepala" 
+             style="position: relative; width: 100%; z-index: 1;">
+      </div>
+      <p style="margin-top:5px;">Elda Fuspita Sari, S.Pd</p>
+    </div>
   </div>
 </div>
 
