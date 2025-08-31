@@ -27,7 +27,7 @@ async function cariRapor() {
             // Tombol unduh langsung PDF
             document.getElementById("unduhBtn").onclick = () => {
                 modal.classList.remove("show-modal");
-                window.open("rapor.html", "_blank"); // buka rapor.html → auto download
+                window.open("rapor.html?dl=1", "_blank"); // buka rapor.html → auto download
             };
 
             // Close modal
@@ -44,6 +44,7 @@ async function cariRapor() {
         alert("Gagal mengambil data: " + err);
     }
 }
+
 
 
 
