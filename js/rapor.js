@@ -96,13 +96,14 @@ function isiRapor(data) {
 function downloadPDF() {
     const el = document.getElementById('pdf-content');
     html2pdf().set({
-        margin: [0.566,1,0.212,1],
+        margin: [0.566,1,0,1], // atas, kanan, bawah, kiri → margin bawah 0
         filename: (document.getElementById('nama_siswa').innerText || 'rapor') + '.pdf',
         image: { type:'jpeg', quality:0.98 },
         html2canvas: { scale:4, useCORS:true },
         jsPDF: { unit:'cm', format:[21.59,33.02], orientation:'portrait' }
     }).from(el).save();
 }
+
 
 // Auto load
 window.onload = () => {
