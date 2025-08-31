@@ -32,6 +32,11 @@ async function cariRapor() {
       document.getElementById("unduhBtn").onclick = () => {
         window.location.href = "rapor.html?dl=1";
       };
+        // 🔹 Tombol Cetak → langsung unduh PDF (bukan print preview)
+      document.getElementById("cetakBtn").onclick = () => {
+        window.location.href = "rapor.html?dl=1";
+      };
+
 
       // tombol close
       document.getElementById("closeBtn").onclick = () => {
@@ -51,4 +56,5 @@ async function cariRapor() {
     alert("Gagal mengambil data: " + err);
   }
 }
+
 
