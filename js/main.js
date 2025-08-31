@@ -1,42 +1,42 @@
-// URL endpoint Google Apps Script
-const API_ALL = "https://script.google.com/macros/s/AKfycbxiIfP0kPXezHWvJfh5qkTLaCu7aw9Y-JihQTOF2mO6hjhDSP7w1k-qllMJsuEOtdGi/exec"; // ganti dengan milikmu
+const DATA_URL = "https://script.google.com/macros/s/AKfycbwUB1t_7tftbSocO9CX8NOsuMoxBaoMn0E5U9ZsTz_jN9vY5isRP69dtBH1CRW3jT9b/exec";
 
-// Fungsi preload data
-async function preloadData() {
+let allData = [];
+
+// Tampilkan loading
+function showLoading(show=true) {
+    const loading = document.getElementById("floating-loading");
+    if(loading) loading.style.display = show ? "block" : "none";
+}
+
+// Fetch semua data dari Google Sheet
+async function fetchAllData() {
     try {
-        const res = await fetch(API_ALL);
-        const allData = await res.json();
+        showLoading(true);
+        const res = await fetch(DATA_URL);
+        const data = await res.json();
+        allData = Array.isArray(data) ? data : [];
         localStorage.setItem("allRaporData", JSON.stringify(allData));
-        console.log("Data rapor diupdate:", new Date().toLocaleTimeString());
+        showLoading(false);
+        console.log("Data rapor ter-update:", allData.length, "siswa");
     } catch(err) {
-        console.error("Gagal preload data:", err);
+        showLoading(false);
+        console.error("Gagal fetch data:", err);
     }
 }
 
-// Jalankan preload pertama kali saat halaman dibuka
-preloadData();
-
-// Update otomatis setiap 5 menit
-setInterval(preloadData, 5 * 60 * 1000);
-
-// Fungsi pencarian cepat dari localStorage
+// Cari rapor per NISN/NIS
 function cariRapor() {
-    let nisnInput = document.getElementById("nisn").value.trim();
-    if (!nisnInput) { alert("Masukkan NISN atau NIS"); return; }
+    const nisnInput = document.getElementById("nisn").value.trim();
+    if(!nisnInput){ alert("Masukkan NISN atau NIS"); return; }
 
-    document.getElementById("floating-loading").style.display = "block";
+    showLoading(true);
 
-    setTimeout(() => {
-        const allData = JSON.parse(localStorage.getItem("allRaporData") || "[]");
-        const data = allData.find(d => d["NISN"] == nisnInput || d["NIS"] == nisnInput);
+    // Cari di allData
+    const data = allData.find(d => d["NISN"] === nisnInput || d["NIS"] === nisnInput);
 
-        document.getElementById("floating-loading").style.display = "none";
+    showLoading(false);
 
-        if(!data){
-            alert("Data tidak ditemukan. Periksa kembali NISN/NIS.");
-            return;
-        }
-
+    if(data){
         localStorage.setItem("raporData", JSON.stringify(data));
 
         const modal = document.getElementById("modal");
@@ -53,8 +53,7 @@ function cariRapor() {
         // Tombol unduh langsung PDF
         document.getElementById("unduhBtn").onclick = () => {
             modal.classList.remove("show-modal");
-            // buka rapor.html dengan query parameter ?dl=1
-            window.open("rapor.html?dl=1", "_blank"); 
+            window.open("rapor.html?dl=1", "_blank");
         };
 
         // Close modal
@@ -62,31 +61,25 @@ function cariRapor() {
 
         // klik overlay
         modal.onclick = (e) => { if(e.target === modal) modal.classList.remove("show-modal"); };
-    }, 500); // kasih delay 0.5 detik biar "loading" kelihatan
+
+    } else {
+        alert("Data tidak ditemukan. Periksa kembali NISN/NIS.");
+    }
 }
 
-function downloadRaporPDF() {
-    const data = JSON.parse(localStorage.getItem("raporData") || "{}");
-    if(!data){ alert("Data rapor belum ada."); return; }
+// Inisialisasi
+window.onload = async () => {
+    // Load data dari cache jika ada
+    const cachedData = JSON.parse(localStorage.getItem("allRaporData") || "[]");
+    if(cachedData.length) allData = cachedData;
 
-    // Masukkan data ke rapor HTML sementara
-    const tempDiv = document.createElement("div");
-    tempDiv.style.position = "absolute";
-    tempDiv.style.left = "-9999px";
-    tempDiv.innerHTML = document.getElementById("pdf-content").outerHTML; // copy layout
-    document.body.appendChild(tempDiv);
+    // Fetch data terbaru di background
+    await fetchAllData();
 
-    isiRapor(data); // isi data ke elemen
+    // Refresh tiap 5 menit
+    setInterval(fetchAllData, 5 * 60 * 1000);
 
-    html2pdf().set({
-        margin: [0.566,1,0,1],
-        filename: (data["Nama Peserta Didik"] || 'rapor') + '.pdf',
-        image: { type:'jpeg', quality:0.98 },
-        html2canvas: { scale:4, useCORS:true },
-        jsPDF: { unit:'cm', format:[21.59,33.02], orientation:'portrait' }
-    }).from(tempDiv).save().then(() => {
-        document.body.removeChild(tempDiv);
-    });
-}
-
-
+    // Tombol cari
+    const cariBtn = document.querySelector(".form-submit");
+    if(cariBtn) cariBtn.onclick = cariRapor;
+};
