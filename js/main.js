@@ -58,3 +58,27 @@ function cariRapor() {
     // klik overlay
     modal.onclick = (e) => { if(e.target === modal) modal.classList.remove("show-modal"); };
 };
+function downloadRaporPDF() {
+    const data = JSON.parse(localStorage.getItem("raporData") || "{}");
+    if(!data){ alert("Data rapor belum ada."); return; }
+
+    // Masukkan data ke rapor HTML sementara
+    const tempDiv = document.createElement("div");
+    tempDiv.style.position = "absolute";
+    tempDiv.style.left = "-9999px";
+    tempDiv.innerHTML = document.getElementById("pdf-content").outerHTML; // copy layout
+    document.body.appendChild(tempDiv);
+
+    isiRapor(data); // isi data ke elemen
+
+    html2pdf().set({
+        margin: [0.566,1,0,1],
+        filename: (data["Nama Peserta Didik"] || 'rapor') + '.pdf',
+        image: { type:'jpeg', quality:0.98 },
+        html2canvas: { scale:4, useCORS:true },
+        jsPDF: { unit:'cm', format:[21.59,33.02], orientation:'portrait' }
+    }).from(tempDiv).save().then(() => {
+        document.body.removeChild(tempDiv);
+    });
+}
+
