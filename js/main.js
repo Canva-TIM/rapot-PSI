@@ -30,7 +30,7 @@ async function fetchAllData() {
         localStorage.setItem("allRaporData", JSON.stringify(allData));
         showLoading(false);
         console.log("Data rapor ter-update:", allData.length, "siswa");
-        showToast("✅ Data siap! Silakan masukkan NISN.", "success");
+        showToast("✅ Data siap! Silakan masukkan NISN atau NIS.", "success");
     } catch(err) {
         showLoading(false);
         console.error("Gagal fetch data:", err);
@@ -104,5 +104,6 @@ window.onload = async () => {
     const cariBtn = document.querySelector(".form-submit");
     if(cariBtn) cariBtn.onclick = cariRapor;
 };
+
 
 
