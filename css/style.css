@@ -596,7 +596,31 @@ label.valid {
 .btn { margin: 5px; padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer; }
 .btn-primary { background-color: #007bff; color: #fff; }
 .btn-secondary { background-color: #6c757d; color: #fff; }
-.toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #333; color: white; padding: 10px 20px; border-radius: 5px; display: none; opacity: 0.9; z-index: 1000; }
+.toast {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 12px;
+  position: fixed;
+  z-index: 9999;
+  left: 50%;
+  bottom: 30px;
+  font-size: 14px;
+  transition: visibility 0s, opacity 0.5s ease;
+  opacity: 0;
+}
+
+.toast.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.toast.success { background-color: #28a745; } /* hijau */
+.toast.error { background-color: #dc3545; }   /* merah */
 #floating-loading {
 display: none;
 position: fixed;
