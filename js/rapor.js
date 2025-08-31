@@ -29,6 +29,8 @@ function formatTanggalIndo(dateString) {
 }
 
 function isiRapor(data) {
+    if(!data || !data["NISN"]) return; // jika data kosong, hentikan
+
     // Identitas
     safeSet("nama_siswa", data["Nama Peserta Didik"]);
     safeSet("kelas", data["Kelas"]);
@@ -37,7 +39,6 @@ function isiRapor(data) {
     safeSet("fase", data["Fase"]);
     safeSet("semester", data["Semester"]);
     safeSet("tahun_ajaran", data["Tahun Ajaran"]);
-
     safeSet("tanggal", formatTanggalIndo(data["Tanggal"]));
 
     // Nilai Kelompok A
@@ -108,7 +109,6 @@ function downloadPDF() {
     }).from(el).save();
 }
 
-
 // Auto load
 window.onload = () => {
     const data = JSON.parse(localStorage.getItem("raporData") || "{}");
@@ -118,8 +118,6 @@ window.onload = () => {
     const cetakBtn = document.getElementById("cetakBtn");
     if(cetakBtn) cetakBtn.onclick = downloadPDF;
 
-    // Jika url ada ?dl=1 → otomatis download
-    if(window.location.search.includes("dl=1")){
-        downloadPDF();
-    }
+    // otomatis download jika ?dl=1
+    if(window.location.search.includes("dl=1")) downloadPDF();
 };
