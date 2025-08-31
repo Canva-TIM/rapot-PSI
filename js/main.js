@@ -8,6 +8,18 @@ function showLoading(show=true) {
     if(loading) loading.style.display = show ? "block" : "none";
 }
 
+// Fungsi untuk menampilkan toast
+function showToast(message, type="success") {
+    const toast = document.getElementById("toast");
+    toast.className = "toast " + type; 
+    toast.innerText = message;
+    toast.classList.add("show");
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000); // hilang setelah 3 detik
+}
+
+
 // Fetch semua data dari Google Sheet
 async function fetchAllData() {
     try {
@@ -18,6 +30,7 @@ async function fetchAllData() {
         localStorage.setItem("allRaporData", JSON.stringify(allData));
         showLoading(false);
         console.log("Data rapor ter-update:", allData.length, "siswa");
+        showToast("✅ Data siap! Silakan masukkan NISN.", "success");
     } catch(err) {
         showLoading(false);
         console.error("Gagal fetch data:", err);
@@ -27,7 +40,11 @@ async function fetchAllData() {
 // Cari rapor per NISN/NIS
 function cariRapor() {
     const nisnInput = document.getElementById("nisn").value.trim();
-    if(!nisnInput){ alert("Masukkan NISN atau NIS"); return; }
+    if(!nisnInput){ 
+        showToast("❌ NISN/NIS Tidak Boleh Kosong", "error"); 
+        return; 
+    }
+
 
     // Tampilkan loading saat pencarian
     showLoading(true);
@@ -65,7 +82,7 @@ function cariRapor() {
             modal.onclick = (e) => { if(e.target === modal) modal.classList.remove("show-modal"); };
 
         } else {
-            alert("Data tidak ditemukan. Periksa kembali NISN/NIS.");
+            showToast("❌ Rapor tidak ditemukan atau NISN/NIS salah", "error");
         }
     }, 200); // delay 200ms supaya spinner muncul
 }
@@ -81,10 +98,11 @@ window.onload = async () => {
     await fetchAllData();
 
     // Refresh tiap 5 menit
-    setInterval(fetchAllData, 5 * 60 * 1000);
+    setInterval(fetchAllData, 2 * 60 * 1000);
 
     // Tombol cari
     const cariBtn = document.querySelector(".form-submit");
     if(cariBtn) cariBtn.onclick = cariRapor;
 };
+
 
