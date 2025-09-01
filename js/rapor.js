@@ -101,7 +101,7 @@ function isiRapor(data) {
 function downloadPDF() {
     const el = document.getElementById('pdf-content');
     html2pdf().set({
-        margin: [0.566,1,0,1], // atas, kanan, bawah, kiri → margin bawah 0
+        margin: [0.566,1,0,1], // atas, kanan, bawah, kiri
         filename: (document.getElementById('nama_siswa').innerText || 'rapor') + '.pdf',
         image: { type:'jpeg', quality:0.98 },
         html2canvas: { scale:4, useCORS:true },
@@ -112,6 +112,16 @@ function downloadPDF() {
 // Auto load
 window.onload = () => {
     const data = JSON.parse(localStorage.getItem("raporData") || "{}");
+
+    // Normalisasi NISN agar selalu 10 digit
+    if (data["NISN"]) {
+        let nisn = String(data["NISN"]);
+        if (nisn.length === 9) {
+            nisn = "0" + nisn;
+        }
+        data["NISN"] = nisn;
+    }
+
     isiRapor(data);
 
     // Tombol cetak
