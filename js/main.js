@@ -1,4 +1,4 @@
-const DATA_URL = "https://script.google.com/macros/s/AKfycbyk8EVVjAuGcGE7eHx5Hcack3rKoYZuM6_FiNgxlCaTElW1rr1VyCHyaAGlQC2Jp8q9/exec";
+const DATA_URL = "https://script.google.com/macros/s/AKfycbxqC-ryQgdeSkKH4nTgTTO5rz-j377sbK0MUa36zbooy_q9r8zSR_7BmxTOHtOuROUL/exec";
 
 let allData = [];
 
@@ -45,13 +45,15 @@ function cariRapor() {
         return; 
     }
 
-
     // Tampilkan loading saat pencarian
     showLoading(true);
 
     // Simulasi delay kecil supaya spinner terlihat
     setTimeout(() => {
-        const data = allData.find(d => d["NISN"] === nisnInput || d["NIS"] === nisnInput);
+        const data = allData.find(d => 
+            String(d["NISN"]).trim() === nisnInput || 
+            String(d["NIS"]).trim() === nisnInput
+        );
 
         showLoading(false);
 
@@ -97,14 +99,10 @@ window.onload = async () => {
     // Fetch data terbaru di background
     await fetchAllData();
 
-    // Refresh tiap 5 menit
+    // Refresh tiap 2 menit
     setInterval(fetchAllData, 2 * 60 * 1000);
 
     // Tombol cari
     const cariBtn = document.querySelector(".form-submit");
     if(cariBtn) cariBtn.onclick = cariRapor;
 };
-
-
-
-
