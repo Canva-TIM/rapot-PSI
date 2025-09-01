@@ -19,6 +19,15 @@ function showToast(message, type="success") {
     }, 3000); // hilang setelah 3 detik
 }
 
+// Fungsi normalisasi NISN/NIS (pastikan 10 digit)
+function normalisasiNISN(nisn) {
+    if(!nisn) return "";
+    nisn = String(nisn).trim();
+    if (nisn.length === 9) {
+        nisn = "0" + nisn;
+    }
+    return nisn;
+}
 
 // Fetch semua data dari Google Sheet
 async function fetchAllData() {
@@ -26,7 +35,16 @@ async function fetchAllData() {
         showLoading(true);
         const res = await fetch(DATA_URL);
         const data = await res.json();
-        allData = Array.isArray(data) ? data : [];
+        
+        // Normalisasi semua NISN & NIS
+        allData = (Array.isArray(data) ? data : []).map(d => {
+            return {
+                ...d,
+                "NISN": normalisasiNISN(d["NISN"]),
+                "NIS": normalisasiNISN(d["NIS"])
+            };
+        });
+
         localStorage.setItem("allRaporData", JSON.stringify(allData));
         showLoading(false);
         console.log("Data rapor ter-update:", allData.length, "siswa");
@@ -39,20 +57,22 @@ async function fetchAllData() {
 
 // Cari rapor per NISN/NIS
 function cariRapor() {
-    const nisnInput = document.getElementById("nisn").value.trim();
+    let nisnInput = document.getElementById("nisn").value.trim();
     if(!nisnInput){ 
         showToast("❌ NISN/NIS Tidak Boleh Kosong", "error"); 
         return; 
     }
 
+    // Normalisasi input
+    nisnInput = normalisasiNISN(nisnInput);
+
     // Tampilkan loading saat pencarian
     showLoading(true);
 
-    // Simulasi delay kecil supaya spinner terlihat
     setTimeout(() => {
         const data = allData.find(d => 
-            String(d["NISN"]).trim() === nisnInput || 
-            String(d["NIS"]).trim() === nisnInput
+            normalisasiNISN(d["NISN"]) === nisnInput || 
+            normalisasiNISN(d["NIS"]) === nisnInput
         );
 
         showLoading(false);
@@ -80,23 +100,20 @@ function cariRapor() {
             // Close modal
             document.getElementById("closeBtn").onclick = () => modal.classList.remove("show-modal");
 
-            // klik overlay
+            // Klik overlay
             modal.onclick = (e) => { if(e.target === modal) modal.classList.remove("show-modal"); };
 
         } else {
             showToast("❌ Rapor tidak ditemukan atau NISN/NIS salah", "error");
         }
-    }, 200); // delay 200ms supaya spinner muncul
+    }, 200);
 }
-
 
 // Inisialisasi
 window.onload = async () => {
-    // Load data dari cache jika ada
     const cachedData = JSON.parse(localStorage.getItem("allRaporData") || "[]");
     if(cachedData.length) allData = cachedData;
 
-    // Fetch data terbaru di background
     await fetchAllData();
 
     // Refresh tiap 2 menit
