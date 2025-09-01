@@ -45,7 +45,13 @@
     border-collapse: collapse;
     font-size: 14px;
   }
+ .identitas {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
   .identitas td {
+    border: none;
     padding: 3px 6px;
     vertical-align: top;
     white-space: nowrap; /* label tidak bisa turun */
@@ -58,8 +64,8 @@
 <body>
 <div id="pdf-content">
   <!-- Identitas Siswa -->
-  <table class="identitas" class="no-border compact">
-   <tr>
+<table class="identitas">
+  <tr>
     <td>Nama Peserta Didik</td>
     <td class="value">: <span id="nama_siswa"></span></td>
     <td>Kelas</td>
@@ -79,10 +85,10 @@
   </tr>
   <tr>
     <td>Alamat</td>
-    <td class="value" colspan="3">
-      : Jl. Lintas Barat Sumatera<br>
-        Gedung Sako II, Kec. Kaur Selatan, Kab. Kaur
-    </td>
+    <td class="value">: Jl. Lintas Barat Sumatera<br>
+        Gedung Sako II, Kec. Kaur Selatan, Kab. Kaur</td>
+    <td></td>
+    <td></td>
   </tr>
   <tr>
     <td></td>
@@ -90,7 +96,7 @@
     <td>Tahun Ajaran</td>
     <td class="value">: <span id="tahun_ajaran"></span></td>
   </tr>
-  </table>
+</table>
 
   <h3 class="center">LAPORAN HASIL BELAJAR SUMATIF AKHIR SEMESTER</h3>
 
