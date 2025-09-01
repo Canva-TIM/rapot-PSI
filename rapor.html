@@ -39,29 +39,57 @@
     background: #007bff; color: #fff; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
-  .print-btn:hover { opacity: 0.9; }
+  .print-btn:hover { opacity: 0.9; 
+    .identitas {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .identitas td {
+    padding: 3px 6px;
+    vertical-align: top;
+    white-space: nowrap; /* label tidak bisa turun */
+  }
+  .identitas .value {
+    white-space: normal; /* isi bisa turun kalau panjang */
+  }
 </style>
 </head>
 <body>
 <div id="pdf-content">
   <!-- Identitas Siswa -->
-  <table class="no-border compact">
-    <tr>
-      <td>Nama Peserta Didik</td><td>: <span id="nama_siswa"></span></td>
-      <td>Kelas</td><td>: <span id="kelas"></span></td>
-    </tr>
-    <tr>
-      <td>NISN/ NIS</td><td>: <span id="nisn"></span> / <span id="nis"></span></td>
-      <td>Fase</td><td>: <span id="fase"></span></td>
-    </tr>
-    <tr>
-      <td>Nama Sekolah</td><td>: SD PSI FATHIR ALFATH</td>
-      <td>Semester</td><td>: <span id="semester"></span></td>
-    </tr>
-    <tr>
-      <td>Alamat</td><td>: Jl. Lintas Barat Sumatera Gedung Sako II Kec. Kaur Selatan Kab. Kaur</td>
-      <td>Tahun Ajaran</td><td>: <span id="tahun_ajaran"></span></td>
-    </tr>
+  <table class="identitas" class="no-border compact">
+   <tr>
+    <td>Nama Peserta Didik</td>
+    <td class="value">: <span id="nama_siswa"></span></td>
+    <td>Kelas</td>
+    <td class="value">: <span id="kelas"></span></td>
+  </tr>
+  <tr>
+    <td>NISN / NIS</td>
+    <td class="value">: <span id="nisn"></span> / <span id="nis"></span></td>
+    <td>Fase</td>
+    <td class="value">: <span id="fase"></span></td>
+  </tr>
+  <tr>
+    <td>Nama Sekolah</td>
+    <td class="value">: SD PSI FATHIR ALFATH</td>
+    <td>Semester</td>
+    <td class="value">: <span id="semester"></span></td>
+  </tr>
+  <tr>
+    <td>Alamat</td>
+    <td class="value" colspan="3">
+      : Jl. Lintas Barat Sumatera<br>
+        Gedung Sako II, Kec. Kaur Selatan, Kab. Kaur
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td>Tahun Ajaran</td>
+    <td class="value">: <span id="tahun_ajaran"></span></td>
+  </tr>
   </table>
 
   <h3 class="center">LAPORAN HASIL BELAJAR SUMATIF AKHIR SEMESTER</h3>
