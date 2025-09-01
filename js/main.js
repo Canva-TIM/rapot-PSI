@@ -1,4 +1,4 @@
-const DATA_URL = "https://script.google.com/macros/s/AKfycbwUB1t_7tftbSocO9CX8NOsuMoxBaoMn0E5U9ZsTz_jN9vY5isRP69dtBH1CRW3jT9b/exec";
+const DATA_URL = "https://script.google.com/macros/s/AKfycbyk8EVVjAuGcGE7eHx5Hcack3rKoYZuM6_FiNgxlCaTElW1rr1VyCHyaAGlQC2Jp8q9/exec";
 
 let allData = [];
 
@@ -104,6 +104,7 @@ window.onload = async () => {
     const cariBtn = document.querySelector(".form-submit");
     if(cariBtn) cariBtn.onclick = cariRapor;
 };
+
 
 
 
