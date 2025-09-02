@@ -29,9 +29,7 @@
   .ttd { width: 45%; text-align: center; }
   .ttd-bottom { text-align: center; margin-top: 10px; }
   .col-no { width: 5%; text-align: center; }
-  .col-mapel { width:25%; text-align: justify; }
   .col-nilai { width: 8%; text-align: center; }
-  .col-capai { width: 62%; text-align: justify; text-justify: inter-word; }
   .half-table { width: 50%; }
   .text-center { text-align: center; }
   h3.center { margin: 6px 0 12px 0; }
@@ -101,7 +99,6 @@
     padding: 1px 1px;
     vertical-align: middle;
     border: 1px solid #000;
-    white-space: nowrap;
   }
   table.rapor td, table.rapor th {
     border: 1px solid #000;
@@ -110,7 +107,26 @@
   }
   table.rapor td.value { width: 20px; }
 
+/* Kolom Mata Pelajaran */
+.col-mapel {
+  min-width: 120px;   /* lebar minimal */
+  max-width: 200px;   /* lebar maksimal */
+  text-align: justify;
+  white-space: normal;      /* biar teks bisa turun */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
 
+/* Kolom Capaian Kompetensi */
+.col-capai {
+  min-width: 320px;   /* lebar minimal */
+  max-width: 400px;   /* lebar maksimal */
+  text-align: justify;
+  text-justify: inter-word;
+  white-space: normal;      /* biar teks turun */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
 
  
 </style>
