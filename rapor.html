@@ -127,6 +127,17 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
+/* Kolom Catatan Guru */
+.catatan {
+  min-height: 80px;       /* tinggi minimal biar tidak terlalu kecil */
+  max-width: 600px;       /* lebar maksimal */
+  margin: 0 auto;         /* biar posisinya tetap tengah */
+  text-align: justify;
+  text-justify: inter-word;
+  white-space: normal;    /* biar teks turun */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
 
  
 </style>
@@ -211,7 +222,7 @@
     <col style="width:100%;">
   </colgroup>
   <tr>
-    <td class="text-center" id="catatan_guru"></td>
+    <td class="catatan" id="catatan_guru"></td>
   </tr>
 </table>
 
