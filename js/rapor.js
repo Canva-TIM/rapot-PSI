@@ -64,18 +64,18 @@ function isiRapor(data) {
     mapelB.forEach((m,i)=> tambahBaris("tabelKelB", i+1, m[0], data[m[1]], data[m[2]]));
 
     // Ekstrakurikuler
-    for(let i=1;i<=3;i++){
-        const ekskul = data[`Ekskul ${i}`] || "";
-        const pred = data[`Predikat ${i}`] || "";
-        const ket = data[`Keterangan ${i}`] || "";
-        const table = document.getElementById("tabelEkskul");
-        const row = table.insertRow(-1);
-        row.innerHTML = `
-            <td class="col-no text-center">${i}</td>
-            <td>${ekskul}</td>
-            <td class="col-nilai text-center">${pred}</td>
-            <td class="col-capai text-center">${ket}</td>`;
-    }
+//    for(let i=1;i<=3;i++){
+//        const ekskul = data[`Ekskul ${i}`] || "";
+//        const pred = data[`Predikat ${i}`] || "";
+//        const ket = data[`Keterangan ${i}`] || "";
+  //      const table = document.getElementById("tabelEkskul");
+  //      const row = table.insertRow(-1);
+ //       row.innerHTML = `
+//            <td class="col-no text-center">${i}</td>
+//            <td>${ekskul}</td>
+//            <td class="col-nilai text-center">${pred}</td>
+ //           <td class="col-capai text-center">${ket}</td>`;
+//    }
 
     // Catatan & ketidakhadiran
     safeSet("catatan_guru", data["Catatan Guru"]);
