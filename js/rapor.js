@@ -53,7 +53,18 @@ function isiRapor(data) {
         ["Bahasa Indonesia","Nilai B.INDO","Deskripsi B.INDO"],
         ["TIK/Informatika","Nilai TIK","Deskripsi TIK"]
     ];
-    mapelA.forEach((m,i)=> tambahBaris("tabelKelA", i+1, m[0], data[m[1]], data[m[2]]));
+
+    const kelas = (data["Kelas"] || "").trim();
+    let noA = 1;
+    mapelA.forEach((m) => {
+        if (m[0] === "TIK/Informatika" && 
+            (kelas.startsWith("1 ") || kelas.startsWith("2 "))) {
+            // skip TIK untuk kelas 1 & 2
+            return;
+        }
+        tambahBaris("tabelKelA", noA, m[0], data[m[1]], data[m[2]]);
+        noA++;
+    });
 
     // Nilai Kelompok B
     const mapelB = [
@@ -62,20 +73,6 @@ function isiRapor(data) {
         ["Sirah","Nilai SIROH","Deskripsi SIROH"]
     ];
     mapelB.forEach((m,i)=> tambahBaris("tabelKelB", i+1, m[0], data[m[1]], data[m[2]]));
-
-    // Ekstrakurikuler
-//    for(let i=1;i<=3;i++){
-//        const ekskul = data[`Ekskul ${i}`] || "";
-//        const pred = data[`Predikat ${i}`] || "";
-//        const ket = data[`Keterangan ${i}`] || "";
-  //      const table = document.getElementById("tabelEkskul");
-  //      const row = table.insertRow(-1);
- //       row.innerHTML = `
-//            <td class="col-no text-center">${i}</td>
-//            <td>${ekskul}</td>
-//            <td class="col-nilai text-center">${pred}</td>
- //           <td class="col-capai text-center">${ket}</td>`;
-//    }
 
     // Catatan & ketidakhadiran
     safeSet("catatan_guru", data["Catatan Guru"]);
@@ -96,6 +93,7 @@ function isiRapor(data) {
     document.getElementById("ttd_kepala").src = "images/ttd_kepala.png";
     document.getElementById("cap_sekolah").src = "images/cap_sekolah.png";
 }
+
 
 // Fungsi download PDF
 function downloadPDF() {
