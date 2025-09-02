@@ -139,6 +139,26 @@
   overflow-wrap: break-word;
 }
 
+ /* Table Catatan Guru */
+table.catatan-table {
+  width: 100%;              /* tetap full */
+  table-layout: fixed;       /* kunci layout */
+  border-collapse: collapse;
+}
+
+table.catatan-table td {
+  width: 600px;              /* fix ukuran */
+  max-width: 600px;
+  min-height: 100px;
+  margin: 0 auto;
+  text-align: justify;
+  vertical-align: top;
+  white-space: normal;       /* biar turun */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+
  
 </style>
 </head>
@@ -217,14 +237,12 @@
 
 <!-- Catatan Guru -->
 <div class="section-title-center">Catatan Guru</div>
-<table class="rapor">
-  <colgroup>
-    <col style="width:100%;">
-  </colgroup>
+<table class="rapor catatan-table">
   <tr>
-    <td class="catatan" id="catatan_guru"></td>
+    <td id="catatan_guru"></td>
   </tr>
 </table>
+
 
 <!-- Ketidakhadiran -->
 <div class="section-title">Ketidakhadiran</div>
