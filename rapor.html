@@ -1,217 +1,190 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
- <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detail Rapor Yayasan Pusat Sekolah Islam</title>
+  <meta charset="UTF-8">
+  <title>Rapor Siswa</title>
+  <style>
+    body {
+      font-family: 'Times New Roman', serif;
+      font-size: 14px;
+      color: #000;
+      margin: 20px auto;
+      max-width: 21cm; /* pas ukuran A4 */
+    }
 
-  <!-- Open Graph untuk Thumbnail -->
-  <meta property="og:title" content="Detail Rapor | SD PSI Fathir Alfath">
-  <meta property="og:description" content="Lihat detail rapor online SD PSI Fathir Alfath.">
-  <meta property="og:image" content="https://rapor-psi.vercel.app/images/logo.png">
-  <meta property="og:url" content="https://rapor-psi.vercel.app">
-  <meta property="og:type" content="website">
+    h2, .section-title, .section-title-center {
+      font-weight: bold;
+      margin: 12px 0 6px 0;
+    }
 
-  <!-- Favicon -->
-  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-<style>
-  body { font-family: 'Times New Roman', serif; margin: 40px; font-size: 14px; color: #000; }
-  table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
-  th, td { border: 1px solid #000; padding: 8px 6px; vertical-align: middle; line-height: 1.18; }
-  .no-border td, .no-border th { border: none; padding: 4px; }
-  .compact th, .compact td { padding: 2px 4px; line-height: 1; }
-  .center { text-align: center; }
-  .section-title { font-weight: bold; margin: 8px 0 4px 0; text-align: left; }
-  .section-title-center { font-weight: bold; margin: 8px 0 4px 0; text-align: center; }
-  .footer { margin-top: 10px; }
-  .ttd-row { display: flex; justify-content: space-between; margin-bottom: 0px; }
-  .ttd { width: 45%; text-align: center; }
-  .ttd-bottom { text-align: center; margin-top: 10px; }
-  .col-no { width: 5%; text-align: center; }
-  .col-mapel { width:25%; text-align: justify; }
-  .col-nilai { width: 8%; text-align: center; }
-  .col-capai { width: 70%; text-align: justify; text-justify: inter-word; }
-  .half-table { width: 50%; }
-  .text-center { text-align: center; }
-  h3.center { margin: 6px 0 12px 0; }
+    .section-title {
+      font-size: 15px;
+      text-align: left;
+    }
+    .section-title-center {
+      font-size: 15px;
+      text-align: center;
+    }
 
+    /* Tabel umum */
+    table {
+      width: 100% !important;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    /* Tabel identitas tanpa border */
+    table.identitas td {
+      border: none;
+      padding: 6px 8px;
+      font-size: 14px;
+    }
+
+    /* Tabel rapor dengan border */
+    table.compact th,
+    table.compact td {
+      border: 1px solid #000;
+      padding: 6px 8px;
+      font-size: 14px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    /* Tabel setengah halaman */
+    table.half-table td {
+      border: 1px solid #000;
+      padding: 6px 8px;
+    }
+
+    /* Print preview */
     @media print {
-    @page {size: 21.59cm 33.02cm; margin: 15mm; 
-  margin: 20mm 15mm 20mm 15mm; /* atas kanan bawah kiri */
-}
-    body { margin: 0; font-size: 12pt; }
-    .no-print { display: none !important; }
-    table.compact th, table.compact td { padding: 3px 6px; line-height: 1.05; }
-  }
+      body {
+        margin: 1cm;
+        max-width: 100%;
+      }
+      table th, table td {
+        font-size: 12px;
+        padding: 4px 6px;
+      }
+      .no-print {
+        display: none;
+      }
+    }
 
-  .print-btn {
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-  z-index: 1200;
-  background: #007bff;
-  color: #fff;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
-.print-btn:hover { 
-  background: #0056b3;
-}
-
-/* Responsif di layar kecil */
-@media (max-width: 600px) {
-  .print-btn {
-    right: 12px;
-    bottom: 12px;
-    font-size: 14px;
-    padding: 10px 14px;
-  }
-}
-
-/* Style identitas siswa */
-.identitas {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-.identitas td {
-  padding: 1px 1px;
-  vertical-align: top;
-  border: none;
-  white-space: nowrap;
-}
-
-table.identitas td, 
-table.identitas th {
-  border: none; 
-  padding: 4px 6px;
-  vertical-align: top;
-}
-table.identitas td.value {
-  width: 20px; /* biar kolom nilai stabil */
-}
-
-</style>
+    /* Tombol */
+    .print-btn {
+      margin: 12px 0;
+      padding: 6px 14px;
+      font-size: 14px;
+      background: #2b7;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-<div id="pdf-content">
-<!-- Identitas Siswa -->
-<table class="identitas">
-  <colgroup>
-    <col style="width: 160px;">  <!-- label kiri -->
-    <col style="width: 300px;">  <!-- isi kiri -->
-    <col style="width: 120px;">  <!-- label kanan -->
-    <col style="width: 20px;">  <!-- isi kanan -->
-  </colgroup>
-  <tr>
-    <td>Nama Peserta Didik</td>
-    <td class="value">: <span id="nama_siswa"></span></td>
-    <td>Kelas</td>
-    <td class="value">: <span id="kelas"></span></td>
-  </tr>
-  <tr>
-    <td>NISN / NIS</td>
-    <td class="value">: <span id="nisn"></span> / <span id="nis"></span></td>
-    <td>Fase</td>
-    <td class="value">: <span id="fase"></span></td>
-  </tr>
-  <tr>
-    <td>Nama Sekolah</td>
-    <td class="value">: SD PSI FATHIR ALFATH</td>
-    <td>Semester</td>
-    <td class="value">: <span id="semester"></span></td>
-  </tr>
-  <tr>
-    <td>Alamat</td>
-    <td class="value">: Jl. Lintas Barat Sumatera
-        Gedung Sako II,<br> Kec. Kaur Selatan, Kab. Kaur</td>
-    <td>Tahun Ajaran</td>
-    <td class="value">: <span id="tahun_ajaran"></span></td>
-  </tr>
-</table>
 
-  <h3 class="center">LAPORAN HASIL BELAJAR SUMATIF AKHIR SEMESTER</h3>
+  <h2 class="section-title-center">LAPORAN HASIL BELAJAR</h2>
+
+  <!-- Identitas -->
+  <table class="identitas">
+    <colgroup>
+      <col style="width: 20%;">
+      <col style="width: 30%;">
+      <col style="width: 20%;">
+      <col style="width: 30%;">
+    </colgroup>
+    <tr>
+      <td>Nama</td><td>Ahmad</td>
+      <td>Kelas</td><td>5A</td>
+    </tr>
+    <tr>
+      <td>NIS</td><td>123456</td>
+      <td>Semester</td><td>Genap</td>
+    </tr>
+  </table>
 
   <!-- Kelompok A -->
   <div class="section-title">Kelompok A</div>
   <table class="compact" id="tabelKelA">
+    <colgroup>
+      <col style="width:5%;">
+      <col style="width:25%;">
+      <col style="width:8%;">
+      <col style="width:62%;">
+    </colgroup>
     <tr>
-      <th class="col-no">No.</th><th class="col-mapel">Mata Pelajaran</th>
-      <th class="col-nilai">Nilai Akhir</th><th class="col-capai">Capaian Kompetensi</th>
+      <th>No.</th>
+      <th>Mata Pelajaran</th>
+      <th>Nilai Akhir</th>
+      <th>Capaian Kompetensi</th>
+    </tr>
+    <tr>
+      <td>1</td><td>Matematika</td><td>85</td><td>Sangat Baik</td>
+    </tr>
+    <tr>
+      <td>2</td><td>B. Indonesia</td><td>90</td><td>Baik Sekali</td>
     </tr>
   </table>
 
   <!-- Kelompok B -->
   <div class="section-title">Kelompok B</div>
   <table class="compact" id="tabelKelB">
+    <colgroup>
+      <col style="width:5%;">
+      <col style="width:25%;">
+      <col style="width:8%;">
+      <col style="width:62%;">
+    </colgroup>
     <tr>
-      <th class="col-no">No.</th><th class="col-mapel">Mata Pelajaran</th>
-      <th class="col-nilai">Nilai Akhir</th><th class="col-capai">Capaian Kompetensi</th>
+      <th>No.</th>
+      <th>Mata Pelajaran</th>
+      <th>Nilai Akhir</th>
+      <th>Capaian Kompetensi</th>
+    </tr>
+    <tr>
+      <td>1</td><td>Seni Budaya</td><td>88</td><td>Cukup</td>
+    </tr>
+    <tr>
+      <td>2</td><td>Olahraga</td><td>92</td><td>Sangat Baik</td>
     </tr>
   </table>
-
-  <!-- Ekstrakurikuler 
-  <table class="compact" id="tabelEkskul">
-    <tr>
-      <th class="col-no">No.</th><th class="col-mapel">Ekstrakurikuler</th>
-      <th class="col-nilai">Predikat</th><th class="col-capai">Keterangan</th>
-    </tr>
-  </table>-->
 
   <!-- Catatan Guru -->
   <div class="section-title-center">Catatan Guru</div>
   <table class="compact">
-    <tr><td class="text-center" id="catatan_guru"></td></tr>
+    <colgroup>
+      <col style="width:100%;">
+    </colgroup>
+    <tr>
+      <td class="text-center" id="catatan_guru">
+        Ahmad sangat aktif dalam pembelajaran dan menunjukkan peningkatan signifikan.
+      </td>
+    </tr>
   </table>
 
   <!-- Ketidakhadiran -->
   <div class="section-title">Ketidakhadiran</div>
   <table class="compact half-table">
-    <tr><td>Sakit</td><td>: <span id="sakit"></span> Hari</td></tr>
-    <tr><td>Izin</td><td>: <span id="izin"></span> Hari</td></tr>
-    <tr><td>Tanpa Keterangan</td><td>: <span id="alpa"></span> Hari</td></tr>
+    <colgroup>
+      <col style="width:50%;">
+      <col style="width:50%;">
+    </colgroup>
+    <tr><td>Sakit</td><td>: 2 Hari</td></tr>
+    <tr><td>Izin</td><td>: 1 Hari</td></tr>
+    <tr><td>Tanpa Keterangan</td><td>: 0 Hari</td></tr>
   </table>
 
-  <!-- Tanda tangan -->
-  <div class="footer">
-    <div class="ttd-row">
-      <!-- Wali Siswa kosong -->
-      <div class="ttd">
-        <p>Orang Tua/ Wali Peserta Didik</p><br><br>
-        <img id="ttd_wali" style="width:150px; display:none; margin:0 auto;">
-        <p id="nama_wali" style="margin-top:15px;">................................</p>
-      </div>
-      
-      <!-- Wali Kelas -->
-      <div class="ttd">
-        <p>Kaur, <span id="tanggal"></span><br>Wali Kelas,</p>
-        <div style="height:20px;"></div> <!-- jarak ±2cm -->
-        <img id="ttd_wali_kelas"  style="width: 200px;z-index: 1;margin-top: -40px;">
-        <p id="wali_kelas" style="margin-top:-30px;"></p>
-      </div>
-    </div>
-    
-<!-- Kepala Sekolah -->
-<div class="ttd-bottom" style="position: relative; height:auto; margin-top:0;">
-  <p>Kepala Sekolah,</p>
-  <div style="height:20px;"></div>
-  <div style="display: flex; justify-content: center; align-items: flex-start; margin-top:-60px;">
-    <img id="cap_sekolah" style="width: 150px; margin-right:-90px; z-index: 2;margin-top: -20px;">
-    <img id="ttd_kepala" style="width: 200px; z-index: 1; margin-top: 20px;">
-  </div> 
-  <p style="margin-top:-40px;">Elda Fuspita Sari, S.Pd</p>
-</div>
-  </div>
-</div>
-<button id="cetakBtn" class="print-btn no-print">Cetak</button>
+  <!-- Tombol Cetak -->
+  <button id="cetakBtn" class="print-btn no-print">Cetak</button>
 
-<!-- html2pdf -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
-<script src="js/rapor.js"></script>
+  <script>
+    document.getElementById("cetakBtn").addEventListener("click", function() {
+      window.print();
+    });
+  </script>
+
 </body>
 </html>
