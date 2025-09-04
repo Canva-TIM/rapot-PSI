@@ -41,30 +41,40 @@ function isiRapor(data) {
     safeSet("tahun_ajaran", data["Tahun Ajaran"]);
     safeSet("tanggal", formatTanggalIndo(data["Tanggal"]));
 
-    // Nilai Kelompok A
-    const mapelA = [
-        ["Pendidikan Agama Islam dan Budi Pekerti","Nilai PAI","Deskripsi PAI"],
-        ["Pancasila","Nilai PKN","Deskripsi PKN"],
-        ["Bahasa Inggris","Nilai B. Inggris","Deskripsi B. Inggris"],
-        ["Ilmu Pengetahuan Alam dan Sosial","Nilai IPAS","Deskripsi IPAS"],
-        ["Matematika","Nilai MTK","Deskripsi MTK"],
-        ["Bahasa Arab","Nilai B. Arab","Deskripsi B. Arab"],
-        ["Pendidikan Jasmani, Olahraga, dan Kesehatan","Nilai PJOK","Deskripsi PJOK"],
-        ["Bahasa Indonesia","Nilai B.INDO","Deskripsi B.INDO"],
-        ["TIK/Informatika","Nilai TIK","Deskripsi TIK"]
-    ];
+// Nilai Kelompok A
+const mapelA = [
+    ["Pendidikan Agama Islam dan Budi Pekerti","Nilai PAI","Deskripsi PAI"],
+    ["Pancasila","Nilai PKN","Deskripsi PKN"],
+    ["Bahasa Inggris","Nilai B. Inggris","Deskripsi B. Inggris"],
+    // IPAS/IPA → nanti diproses sesuai kelas
+    ["Ilmu Pengetahuan Alam dan Sosial","Nilai IPAS","Deskripsi IPAS"],
+    ["IPS","Nilai IPS","Deskripsi IPS"], // tambahan IPS
+    ["Matematika","Nilai MTK","Deskripsi MTK"],
+    ["Bahasa Arab","Nilai B. Arab","Deskripsi B. Arab"],
+    ["Pendidikan Jasmani, Olahraga, dan Kesehatan","Nilai PJOK","Deskripsi PJOK"],
+    ["Bahasa Indonesia","Nilai B.INDO","Deskripsi B.INDO"],
+    ["TIK/Informatika","Nilai TIK","Deskripsi TIK"]
+];
 
-    const kelas = (data["Kelas"] || "").trim();
-    let noA = 1;
-    mapelA.forEach((m) => {
-        if (m[0] === "TIK/Informatika" && 
-            (kelas.startsWith("1 ") || kelas.startsWith("2 "))) {
-            // skip TIK untuk kelas 1 & 2
-            return;
-        }
-        tambahBaris("tabelKelA", noA, m[0], data[m[1]], data[m[2]]);
-        noA++;
-    });
+const kelas = (data["Kelas"] || "").trim();
+let noA = 1;
+mapelA.forEach((m) => {
+    // skip TIK untuk kelas 1 & 2
+    if (m[0] === "TIK/Informatika" && 
+        (kelas.startsWith("1 ") || kelas.startsWith("2 "))) {
+        return;
+    }
+
+    // ganti nama IPAS jadi IPA khusus kelas 7
+    let namaMapel = m[0];
+    if (m[0] === "Ilmu Pengetahuan Alam dan Sosial" && kelas.startsWith("7 ")) {
+        namaMapel = "Ilmu Pengetahuan Alam (IPA)";
+    }
+
+    tambahBaris("tabelKelA", noA, namaMapel, data[m[1]], data[m[2]]);
+    noA++;
+});
+
 
     // Nilai Kelompok B
     const mapelB = [
