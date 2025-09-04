@@ -47,8 +47,8 @@ const mapelA = [
     ["Pancasila","Nilai PKN","Deskripsi PKN"],
     ["Bahasa Inggris","Nilai B. Inggris","Deskripsi B. Inggris"],
     // IPAS/IPA → nanti diproses sesuai kelas
-    ["Ilmu Pengetahuan Alam dan Sosial","Nilai IPAS","Deskripsi IPAS"],
-    ["IPS","Nilai IPS","Deskripsi IPS"], // tambahan IPS
+    ["Ilmu Pengetahuan Alam dan Sosial (IPAS)","Nilai IPAS","Deskripsi IPAS"],
+    ["Ilmu Pengetahuan Sosial (IPS)","Nilai IPS","Deskripsi IPS"], // tambahan IPS
     ["Matematika","Nilai MTK","Deskripsi MTK"],
     ["Bahasa Arab","Nilai B. Arab","Deskripsi B. Arab"],
     ["Pendidikan Jasmani, Olahraga, dan Kesehatan","Nilai PJOK","Deskripsi PJOK"],
@@ -67,7 +67,7 @@ mapelA.forEach((m) => {
 
     // ganti nama IPAS jadi IPA khusus kelas 7
     let namaMapel = m[0];
-    if (m[0] === "Ilmu Pengetahuan Alam dan Sosial" && kelas.startsWith("7 ")) {
+    if (m[0] === "Ilmu Pengetahuan Alam dan Sosial (IPAS)" && kelas.startsWith("7 ")) {
         namaMapel = "Ilmu Pengetahuan Alam (IPA)";
     }
 
