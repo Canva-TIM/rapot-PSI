@@ -59,15 +59,24 @@ const mapelA = [
 const kelas = (data["Kelas"] || "").trim();
 let noA = 1;
 mapelA.forEach((m) => {
+    let namaMapel = m[0];
+
     // skip TIK untuk kelas 1 & 2
-    if (m[0] === "TIK/Informatika" && 
+    if (namaMapel === "TIK/Informatika" && 
         (kelas.startsWith("1 ") || kelas.startsWith("2 "))) {
         return;
     }
 
+    // skip IPS untuk kelas 1–6
+    if (namaMapel === "Ilmu Pengetahuan Sosial (IPS)" &&
+        (kelas.startsWith("1 ") || kelas.startsWith("2 ") || 
+         kelas.startsWith("3 ") || kelas.startsWith("4 ") || 
+         kelas.startsWith("5 ") || kelas.startsWith("6 "))) {
+        return;
+    }
+
     // ganti nama IPAS jadi IPA khusus kelas 7
-    let namaMapel = m[0];
-    if (m[0] === "Ilmu Pengetahuan Alam dan Sosial (IPAS)" && kelas.startsWith("7 ")) {
+    if (namaMapel === "Ilmu Pengetahuan Alam dan Sosial (IPAS)" && kelas.startsWith("7 ")) {
         namaMapel = "Ilmu Pengetahuan Alam (IPA)";
     }
 
