@@ -18,15 +18,6 @@ function showToast(message, type="success") {
 }
 
 // Fungsi normalisasi NISN/NIS (pastikan 10 digit)
-function normalisasiNISN(nisn) {
-    if(!nisn) return "";
-    nisn = String(nisn).trim();
-    if (nisn.length === 9) {
-        nisn = "0" + nisn;
-    }
-    return nisn;
-}
-
 // Cari rapor per NISN/NIS langsung fetch ke server
 async function cariRapor() {
     let input = document.getElementById("nisn").value.trim();
@@ -35,21 +26,20 @@ async function cariRapor() {
         return; 
     }
 
-    let queryParam = "";
-    if (input.length >= 9) {
-        // Anggap ini NISN
-        input = normalisasiNISN(input);
-        queryParam = `nisn=${encodeURIComponent(input)}`;
-    } else {
-        // Anggap ini NIS
-        queryParam = `nis=${encodeURIComponent(input)}`;
-    }
-
     try {
         showLoading(true);
 
-        const res = await fetch(`${DATA_URL}?${queryParam}`);
-        const data = await res.json();
+        let data = [];
+
+        // 1️⃣ Coba cari berdasarkan NISN
+        let res = await fetch(`${DATA_URL}?nisn=${encodeURIComponent(input)}`);
+        data = await res.json();
+
+        // 2️⃣ Kalau tidak ketemu, coba pakai NIS
+        if (!data || data.length === 0) {
+            res = await fetch(`${DATA_URL}?nis=${encodeURIComponent(input)}`);
+            data = await res.json();
+        }
 
         showLoading(false);
 
@@ -62,18 +52,23 @@ async function cariRapor() {
             document.getElementById("modal-info").innerText =
                 "Rapor atas nama " + (siswa["Nama Peserta Didik"] || "") + " ditemukan!";
 
+            // Tombol lihat
             document.getElementById("lihatBtn").onclick = () => {
                 modal.classList.remove("show-modal");
                 window.location.href = "rapor.html";
             };
 
+            // Tombol unduh langsung PDF
             document.getElementById("unduhBtn").onclick = () => {
                 modal.classList.remove("show-modal");
                 window.open("rapor.html?dl=1", "_blank");
             };
 
+            // Close modal
             document.getElementById("closeBtn").onclick = () => modal.classList.remove("show-modal");
-            modal.onclick = (e) => { if (e.target === modal) modal.classList.remove("show-modal"); };
+
+            // Klik overlay
+            modal.onclick = (e) => { if(e.target === modal) modal.classList.remove("show-modal"); };
 
         } else {
             showToast("❌ Rapor tidak ditemukan atau NISN/NIS salah", "error");
@@ -86,9 +81,11 @@ async function cariRapor() {
 }
 
 
+
 // Inisialisasi
 window.onload = () => {
     const cariBtn = document.querySelector(".form-submit");
     if(cariBtn) cariBtn.onclick = cariRapor;
 };
+
 
