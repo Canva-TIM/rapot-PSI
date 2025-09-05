@@ -1,4 +1,4 @@
-const DATA_URL = "https://script.google.com/macros/s/AKfycbxqC-ryQgdeSkKH4nTgTTO5rz-j377sbK0MUa36zbooy_q9r8zSR_7BmxTOHtOuROUL/exec";
+const DATA_URL = "https://script.google.com/macros/s/AKfycbyjjxtr3BEaipNC2dFz3nYDdveapw1B5dBIJBTwtJhjcuLdfORPtJgoic39irmG28Q/exec";
 
 // Tampilkan loading
 function showLoading(show=true) {
@@ -29,25 +29,31 @@ function normalisasiNISN(nisn) {
 
 // Cari rapor per NISN/NIS langsung fetch ke server
 async function cariRapor() {
-    let nisnInput = document.getElementById("nisn").value.trim();
-    if(!nisnInput){ 
+    let input = document.getElementById("nisn").value.trim();
+    if (!input) { 
         showToast("❌ NISN/NIS tidak boleh kosong", "error"); 
         return; 
     }
 
-    // Normalisasi input
-    nisnInput = normalisasiNISN(nisnInput);
+    let queryParam = "";
+    if (input.length >= 9) {
+        // Anggap ini NISN
+        input = normalisasiNISN(input);
+        queryParam = `nisn=${encodeURIComponent(input)}`;
+    } else {
+        // Anggap ini NIS
+        queryParam = `nis=${encodeURIComponent(input)}`;
+    }
 
     try {
         showLoading(true);
 
-        // Fetch hanya data sesuai NISN
-        const res = await fetch(`${DATA_URL}?nisn=${encodeURIComponent(nisnInput)}`);
+        const res = await fetch(`${DATA_URL}?${queryParam}`);
         const data = await res.json();
 
         showLoading(false);
 
-        if(data && data.length > 0){
+        if (data && data.length > 0) {
             const siswa = data[0];
             localStorage.setItem("raporData", JSON.stringify(siswa));
 
@@ -56,23 +62,18 @@ async function cariRapor() {
             document.getElementById("modal-info").innerText =
                 "Rapor atas nama " + (siswa["Nama Peserta Didik"] || "") + " ditemukan!";
 
-            // Tombol lihat
             document.getElementById("lihatBtn").onclick = () => {
                 modal.classList.remove("show-modal");
                 window.location.href = "rapor.html";
             };
 
-            // Tombol unduh langsung PDF
             document.getElementById("unduhBtn").onclick = () => {
                 modal.classList.remove("show-modal");
                 window.open("rapor.html?dl=1", "_blank");
             };
 
-            // Close modal
             document.getElementById("closeBtn").onclick = () => modal.classList.remove("show-modal");
-
-            // Klik overlay
-            modal.onclick = (e) => { if(e.target === modal) modal.classList.remove("show-modal"); };
+            modal.onclick = (e) => { if (e.target === modal) modal.classList.remove("show-modal"); };
 
         } else {
             showToast("❌ Rapor tidak ditemukan atau NISN/NIS salah", "error");
@@ -84,8 +85,10 @@ async function cariRapor() {
     }
 }
 
+
 // Inisialisasi
 window.onload = () => {
     const cariBtn = document.querySelector(".form-submit");
     if(cariBtn) cariBtn.onclick = cariRapor;
 };
+
