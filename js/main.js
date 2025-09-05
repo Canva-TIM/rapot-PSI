@@ -1,4 +1,4 @@
-const DATA_URL = "https://script.google.com/macros/s/AKfycbyjjxtr3BEaipNC2dFz3nYDdveapw1B5dBIJBTwtJhjcuLdfORPtJgoic39irmG28Q/exec";
+const DATA_URL = "https://script.google.com/macros/s/AKfycbx6FLes1bzwa5MdNyn7wYhiyBPTpk1P4GyBWNE_rU-c3hE8r0pHfRNEm7NQ8I_Srzff/exec";
 
 // Tampilkan loading
 function showLoading(show=true) {
@@ -18,28 +18,19 @@ function showToast(message, type="success") {
 }
 
 // Fungsi normalisasi NISN/NIS (pastikan 10 digit)
-// Cari rapor per NISN/NIS langsung fetch ke server
 async function cariRapor() {
-    let input = document.getElementById("nisn").value.trim();
-    if (!input) { 
-        showToast("❌ NISN/NIS tidak boleh kosong", "error"); 
+    let inputId = document.getElementById("nisn").value.trim();
+    if (!inputId) { 
+        showToast("❌ NISN/NIS Tidak Boleh Kosong", "error"); 
         return; 
     }
 
     try {
         showLoading(true);
 
-        let data = [];
-
-        // 1️⃣ Coba cari berdasarkan NISN
-        let res = await fetch(`${DATA_URL}?nisn=${encodeURIComponent(input)}`);
-        data = await res.json();
-
-        // 2️⃣ Kalau tidak ketemu, coba pakai NIS
-        if (!data || data.length === 0) {
-            res = await fetch(`${DATA_URL}?nis=${encodeURIComponent(input)}`);
-            data = await res.json();
-        }
+        // 🚀 langsung kirim sebagai ?id=, server yang tentukan cocok ke NIS / NISN
+        const res = await fetch(`${DATA_URL}?id=${encodeURIComponent(inputId)}`);
+        const data = await res.json();
 
         showLoading(false);
 
@@ -52,22 +43,17 @@ async function cariRapor() {
             document.getElementById("modal-info").innerText =
                 "Rapor atas nama " + (siswa["Nama Peserta Didik"] || "") + " ditemukan!";
 
-            // Tombol lihat
             document.getElementById("lihatBtn").onclick = () => {
                 modal.classList.remove("show-modal");
                 window.location.href = "rapor.html";
             };
 
-            // Tombol unduh langsung PDF
             document.getElementById("unduhBtn").onclick = () => {
                 modal.classList.remove("show-modal");
                 window.open("rapor.html?dl=1", "_blank");
             };
 
-            // Close modal
             document.getElementById("closeBtn").onclick = () => modal.classList.remove("show-modal");
-
-            // Klik overlay
             modal.onclick = (e) => { if(e.target === modal) modal.classList.remove("show-modal"); };
 
         } else {
@@ -80,12 +66,11 @@ async function cariRapor() {
     }
 }
 
-
-
 // Inisialisasi
 window.onload = () => {
     const cariBtn = document.querySelector(".form-submit");
     if(cariBtn) cariBtn.onclick = cariRapor;
 };
+
 
 
