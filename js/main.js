@@ -1,4 +1,4 @@
-const DATA_URL = "https://script.google.com/macros/s/AKfycbx6FLes1bzwa5MdNyn7wYhiyBPTpk1P4GyBWNE_rU-c3hE8r0pHfRNEm7NQ8I_Srzff/exec";
+const DATA_URL = "https://script.google.com/macros/s/AKfycby6ODjG2ZTnXVZg9kzDR2tn9xdkyREfYesajT6yiSZJmxwiCCCYdpnWqgi3qbj--2Nq/exec";
 
 // Tampilkan loading
 function showLoading(show=true) {
@@ -71,6 +71,7 @@ window.onload = () => {
     const cariBtn = document.querySelector(".form-submit");
     if(cariBtn) cariBtn.onclick = cariRapor;
 };
+
 
 
 
