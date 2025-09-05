@@ -1,7 +1,5 @@
 const DATA_URL = "https://script.google.com/macros/s/AKfycbxqC-ryQgdeSkKH4nTgTTO5rz-j377sbK0MUa36zbooy_q9r8zSR_7BmxTOHtOuROUL/exec";
 
-let allData = [];
-
 // Tampilkan loading
 function showLoading(show=true) {
     const loading = document.getElementById("floating-loading");
@@ -29,61 +27,34 @@ function normalisasiNISN(nisn) {
     return nisn;
 }
 
-// Fetch semua data dari Google Sheet
-async function fetchAllData() {
-    try {
-        showLoading(true);
-        const res = await fetch(DATA_URL);
-        const data = await res.json();
-        
-        // Normalisasi semua NISN & NIS
-        allData = (Array.isArray(data) ? data : []).map(d => {
-            return {
-                ...d,
-                "NISN": normalisasiNISN(d["NISN"]),
-                "NIS": normalisasiNISN(d["NIS"])
-            };
-        });
-
-        localStorage.setItem("allRaporData", JSON.stringify(allData));
-        showLoading(false);
-        console.log("Data rapor ter-update:", allData.length, "siswa");
-        showToast("✅ Data siap! Silakan masukkan NISN atau NIS.", "success");
-    } catch(err) {
-        showLoading(false);
-        console.error("Gagal fetch data:", err);
-    }
-}
-
-// Cari rapor per NISN/NIS
-function cariRapor() {
+// Cari rapor per NISN/NIS langsung fetch ke server
+async function cariRapor() {
     let nisnInput = document.getElementById("nisn").value.trim();
     if(!nisnInput){ 
-        showToast("❌ NISN/NIS Tidak Boleh Kosong", "error"); 
+        showToast("❌ NISN/NIS tidak boleh kosong", "error"); 
         return; 
     }
 
     // Normalisasi input
     nisnInput = normalisasiNISN(nisnInput);
 
-    // Tampilkan loading saat pencarian
-    showLoading(true);
+    try {
+        showLoading(true);
 
-    setTimeout(() => {
-        const data = allData.find(d => 
-            normalisasiNISN(d["NISN"]) === nisnInput || 
-            normalisasiNISN(d["NIS"]) === nisnInput
-        );
+        // Fetch hanya data sesuai NISN
+        const res = await fetch(`${DATA_URL}?nisn=${encodeURIComponent(nisnInput)}`);
+        const data = await res.json();
 
         showLoading(false);
 
-        if(data){
-            localStorage.setItem("raporData", JSON.stringify(data));
+        if(data && data.length > 0){
+            const siswa = data[0];
+            localStorage.setItem("raporData", JSON.stringify(siswa));
 
             const modal = document.getElementById("modal");
             modal.classList.add("show-modal");
             document.getElementById("modal-info").innerText =
-                "Rapor atas nama " + (data["Nama Peserta Didik"] || "") + " ditemukan!";
+                "Rapor atas nama " + (siswa["Nama Peserta Didik"] || "") + " ditemukan!";
 
             // Tombol lihat
             document.getElementById("lihatBtn").onclick = () => {
@@ -106,20 +77,15 @@ function cariRapor() {
         } else {
             showToast("❌ Rapor tidak ditemukan atau NISN/NIS salah", "error");
         }
-    }, 200);
+    } catch (err) {
+        showLoading(false);
+        console.error("Gagal fetch data:", err);
+        showToast("⚠️ Gagal mengambil data dari server", "error");
+    }
 }
 
 // Inisialisasi
-window.onload = async () => {
-    const cachedData = JSON.parse(localStorage.getItem("allRaporData") || "[]");
-    if(cachedData.length) allData = cachedData;
-
-    await fetchAllData();
-
-    // Refresh tiap 2 menit
-    setInterval(fetchAllData, 2 * 60 * 1000);
-
-    // Tombol cari
+window.onload = () => {
     const cariBtn = document.querySelector(".form-submit");
     if(cariBtn) cariBtn.onclick = cariRapor;
 };
